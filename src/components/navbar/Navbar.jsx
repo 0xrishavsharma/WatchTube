@@ -7,16 +7,22 @@ const Container = styled.div`
 `;
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   padding: 1.2rem 1.6rem;
+  position:relative;
 `;
 const Search = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 0.3rem 0.8rem;
-
   border: 1px solid ${({ theme }) => theme.soft};
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-width: max-content;
+  margin: auto;
 `;
 const Input = styled.input`
   outline: none;
@@ -25,19 +31,21 @@ const Input = styled.input`
   height: 30px;
   width: 300px;
   font-size: 14px;
-  color: ${({theme}) => theme.text}
+  color: ${({ theme }) => theme.text};
 `;
 const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 0.2rem 0.6rem;
+  padding: 0.3rem 0.6rem;
   max-width: max-content;
+  max-height: min-content;
   background: transparent;
   border: 1px solid #3ea6ff;
   color: #3ea6ff;
   border-radius: 2px;
   font-weight: 500;
+  cursor: pointer;
 `;
 
 const Navbar = () => {
@@ -45,8 +53,8 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Search>
-          <Input placeholder="Search" />
-          <SearchOutlinedIcon />
+            <Input placeholder="Search" />
+            <SearchOutlinedIcon />
         </Search>
         <Button> <AccountCircleOutlinedIcon /> Sign in</Button>
       </Wrapper>
