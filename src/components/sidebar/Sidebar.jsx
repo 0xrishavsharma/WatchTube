@@ -64,15 +64,20 @@ const Item = styled.div`
   align-items: center;
   gap: 1rem;
   padding: 7.5px 1.6rem;
+  font-weight: 300;
   cursor: pointer;
   &.active{
     background-color: ${({ theme }) => theme.bgHover};
+    font-weight: 400;
     &:hover{
     background-color: ${({theme}) => theme.bgHoverLight};
   }
   }
   &:hover{
     background-color: ${({theme}) => theme.bgHover};
+  }
+  .icon{
+    font-weight: 300;
   }
 `;
 const Title = styled.p`
@@ -154,7 +159,7 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
               </Logo>
               <Items>
                 <Item className="active">
-                  <HomeIcon />
+                  <HomeIcon className="icon" />
                     Home
                 </Item>
                 <Item>
