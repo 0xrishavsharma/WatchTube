@@ -79,6 +79,7 @@ const ReportPopUp = styled.div`
     padding: 0.8rem 1rem ;
     background-color: ${({ theme }) => theme.bgLighter};
     border-radius: 3px;
+    opacity: 0;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     .icon{
         font-size: 22px;
@@ -91,15 +92,13 @@ const ReportPopUp = styled.div`
 
 
 const commentMoreInfo = () => {
-    let moreInfoIcon = document.getElementById("moreInfoIcon");
-    moreInfoIcon.addEventListener("click", () => {
-        let reportPopUp = document.getElementById("reportPopUp");
-        if (reportPopUp.style.display == "none") {
-            reportPopUp.style.display == "flex"
-        } else {
-            reportPopUp.style.display == "none"
-        }
-    })
+  let moreInfoIcon = document.getElementById("moreInfoIcon");
+  let reportPopUp = document.getElementById("reportPopUp");
+  if (reportPopUp.style.opacity === "1") {
+    reportPopUp.style.opacity = "0";
+  } else {
+    reportPopUp.style.opacity = "1";
+  }
 }
 
 
@@ -121,7 +120,7 @@ const Comment = () => {
                 </InteractionBtns>
             </CommentDetails>
             <MoreInfoBtn className='moreInfoBtn' >
-                <MoreVertIcon id="moreInfoIcon" />
+                <MoreVertIcon id="moreInfoIcon" onClick={commentMoreInfo} />
                 <ReportPopUp id="reportPopUp" className="reportPopUpToggle">
                     <EmojiFlagsIcon className='icon' />
                     <p>Report</p>
