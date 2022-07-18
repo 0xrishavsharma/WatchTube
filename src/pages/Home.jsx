@@ -32,11 +32,6 @@ const Title = styled.div`
   cursor: pointer;
   color: ${({theme}) => theme.text};
 `;
-
-const ChannelName = styled.div`
-  cursor: pointer;
-`;
-
 const ViewsTime = styled.div`
   margin-top: 0.3rem;
   display: flex;
@@ -55,11 +50,8 @@ const AdditionalInfo = styled.div`
   color: ${({ theme }) => theme.textSoft};
   margin-top: 0.5rem;
 `;
-const ChannelAndVerified = styled.div`
-
-`;
-const Verified = styled.div`
-
+const ChannelName = styled.div`
+  cursor: pointer;
 `;
 const Views = styled.div`
 
