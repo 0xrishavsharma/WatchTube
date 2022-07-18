@@ -17,6 +17,8 @@ import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightne
 import HistoryIcon from '@mui/icons-material/History';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Link } from "react-router-dom";
+import Home from "../../pages/Home";
 
 const Container = styled.div`
     flex: 1.3;
@@ -43,6 +45,8 @@ const Logo = styled.div`
     display: flex;
     align-items: center;
     gap: 5px;
+    color: ${({ theme }) => theme.text};
+    text-decoration: none;
     margin-bottom: 2.5rem;
     font-weight: 500;
     font-size: 1rem;
@@ -65,6 +69,7 @@ const Item = styled.div`
   gap: 1rem;
   padding: 7.5px 1.6rem;
   font-weight: 300;
+  color: ${({theme}) => theme.text};
   cursor: pointer;
   &.active{
     background-color: ${({ theme }) => theme.bgHover};
@@ -152,16 +157,21 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
   }
   return (
     <Container className='sidebar'>
-        <Wrapper>
-              <Logo>
+      <Wrapper>
+        <Link to="/" style={{textDecoration:"none"}} >
+            <Logo>
                 <Img src={WatchTubeLogo} />
                 WatchTube
-              </Logo>
+            </Logo>
+            </Link>
               <Items>
-                <Item className="active">
-                  <HomeIcon className="icon" />
-                    Home
-                </Item>
+                <Link to="/" style={{textDecoration:"none"}}>
+                  <Item className="active">
+                    <HomeIcon className="icon" />
+                      Home
+                  </Item>
+                </Link>
+                
                 <Item>
                   <ExploreOutlinedIcon />
                     Explore

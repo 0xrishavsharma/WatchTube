@@ -5,6 +5,10 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import ContentCutIcon from '@mui/icons-material/ContentCut';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Thumbnail20 from "../assets/img/thumbnails/thumbnail20.jpg";
+import Thumbnail2 from "../assets/img/thumbnails/thumbnail2.jpg";
+import SortIcon from '@mui/icons-material/Sort';
+import CommentSection from "../components/commentSection/CommentSection";
 
 const Container = styled.div`
   display: flex;
@@ -38,18 +42,20 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
   font-size: 14px;
 `;
-const Buttons = styled.div`
+const InteractionButtons = styled.div`
   display: flex;
   gap: 1.3rem;
 `;
-const Button = styled.div`
+const InteractionBtnSingle = styled.div`
   display: flex;
   align-items: center;
   font-size: 14px;
   gap: 0.4rem;
+  
 
   .icon{
     font-size: 22px;
+    cursor: pointer;
   }
 
   .shareIcon{
@@ -64,6 +70,65 @@ const Hr = styled.hr`
 const Recommendations = styled.div`
   flex: 1.5;
 `;
+const ChannelContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`;
+const ChannelWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+
+  .channelDetails{
+    margin: 0rem;
+  }
+  `;
+const Logo = styled.img`
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+`;
+const ChannelMoreDetails = styled.div`
+  margin-left: 64px;
+  font-size: 14px;
+`;
+const ShowMoreBtn = styled.div`
+  font-size: 12px;
+  color: ${({ theme }) => theme.textSoft};
+  margin-top: 0.6rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+`;
+const ChannelDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+const ChannelName = styled.div`
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+`;
+const ChannelSubscribers = styled.div`
+  color: ${({ theme }) => theme.textSoft};
+  font-size: 12px;
+`;
+const SubscribeBtn = styled.div`
+  padding: 0.7rem 1rem;
+  background-color: #d30202;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  border-radius: 2px;
+`;
+const Description = styled.div`
+
+`;
+
+
 
 
 const Video = () => {
@@ -80,27 +145,35 @@ const Video = () => {
             <p> · </p>
             <p>July 16, 2022</p>
           </Info>
-          <Buttons>
-            <Button> <ThumbUpOutlinedIcon className="icon" /> LIKE </Button>
-            <Button> <ThumbDownAltOutlinedIcon className="icon" /> DISLIKE </Button>
-            <Button> <ReplyIcon className="icon shareIcon"/> SHARE </Button>
-            <Button> <ContentCutIcon className="icon" /> CLIP </Button>
-            <Button> <LibraryAddIcon className="icon" /> SAVE </Button>
-            <Button> <MoreHorizIcon className="icon" /> </Button>
-          </Buttons>
+          <InteractionButtons>
+            <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> LIKE </InteractionBtnSingle>
+            <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /> DISLIKE </InteractionBtnSingle>
+            <InteractionBtnSingle> <ReplyIcon className="icon shareIcon"/> SHARE </InteractionBtnSingle>
+            <InteractionBtnSingle> <ContentCutIcon className="icon" /> CLIP </InteractionBtnSingle>
+            <InteractionBtnSingle> <LibraryAddIcon className="icon" /> SAVE </InteractionBtnSingle>
+            <InteractionBtnSingle> <MoreHorizIcon className="icon" /> </InteractionBtnSingle>
+          </InteractionButtons>
         </Details>
-        <ChannelDetails>
-          <Logo></Logo>
-          <div>
-            <p>Great Sight</p>
-            <p></p>
-          </div>
-        </ChannelDetails>
-        <Description>
-
-        </Description>
         <Hr />
+        <ChannelContainer>
+          <ChannelWrapper>
+            <Logo src={Thumbnail20}></Logo>
+            <ChannelDetails>
+              <ChannelName className="channelDetails">Great Sight</ChannelName>
+              <ChannelSubscribers className="channelDetails">347K subscribers</ChannelSubscribers>
+            </ChannelDetails>
+          </ChannelWrapper>
+          <SubscribeBtn>SUBSCRIBE</SubscribeBtn>
+        </ChannelContainer>
+        <ChannelMoreDetails>
+          <Description className="channelDetails">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus ullam, quae ea autem repudiandae optio nostrum tempore odio amet dicta ipsum accusantium modi. Aliquam, soluta error? Porro aliquam reprehenderit architecto necessitatibus quae, labore adipisci tenetur aperiam excepturi. Optio, modi officia!</Description>
+          <ShowMoreBtn className="channelDetails">SHOW MORE</ShowMoreBtn>
+        </ChannelMoreDetails>
+        <Hr />
+        <CommentSection />
       </Content>
+
+      
       <Recommendations>
         Recommendations
       </Recommendations>
