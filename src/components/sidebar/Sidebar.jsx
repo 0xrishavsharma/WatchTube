@@ -17,6 +17,7 @@ import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightne
 import HistoryIcon from '@mui/icons-material/History';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import { Link } from "react-router-dom";
 import Home from "../../pages/Home";
 
@@ -29,6 +30,7 @@ const Container = styled.div`
     font-size: 14px;
     position: sticky;
     top: 0;
+    left: 0;
     overflow: scroll;
     &::-webkit-scrollbar {
       display: none;
@@ -41,17 +43,27 @@ const Wrapper = styled.div`
     padding: 1.2rem 0rem;
 `;
 
+const LogoWrapper = styled.div`
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding:0rem 1.6rem;
+    #moreHorzIcon{
+      cursor: pointer;
+    }
+`;
+
+
 const Logo = styled.div`
     display: flex;
     align-items: center;
     gap: 5px;
     color: ${({ theme }) => theme.text};
     text-decoration: none;
-    margin-bottom: 2.5rem;
     font-weight: 500;
     font-size: 1rem;
     letter-spacing: -0.4px;
-    padding:0rem 1.6rem;
     cursor: pointer;
 `;
 
@@ -93,7 +105,7 @@ const Title = styled.p`
 
 const Hr = styled.hr`
   margin: 15px 0px;
-  border: 0.5px solid ${({theme}) => theme.soft};
+  border: 0.4px solid ${({theme}) => theme.soft};
 `;
 const Login = styled.div`
   display: flex;
@@ -141,6 +153,17 @@ const themeChange = () => {
   } 
 }
 
+const sidebarToggle = () => {
+  let sidebar = document.getElementById("sidebar");
+  if (sidebar.style.position === "sticky") {
+    sidebar.style.position = "absolute";
+    sidebar.style.left = "-100%"
+  } else{
+    sidebar.style.position = "sticky";
+    sidebar.style.left = "0";
+  }
+}
+
 
 
 const Sidebar = ({ darkMode, setDarkMode }) => {
@@ -156,92 +179,95 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
     }
   }
   return (
-    <Container className='sidebar'>
+    <Container id='sidebar'>
       <Wrapper>
-        <Link to="/" style={{textDecoration:"none"}} >
-            <Logo>
-                <Img src={WatchTubeLogo} />
-                WatchTube
-            </Logo>
-            </Link>
-              <Items>
-                <Link to="/" style={{textDecoration:"none"}}>
-                  <Item className="active">
-                    <HomeIcon className="icon" />
-                      Home
-                  </Item>
-                </Link>
-                
-                <Item>
-                  <ExploreOutlinedIcon />
-                    Explore
-                </Item>
-                <Item>
-                  <SubscriptionsOutlinedIcon />
-                    Subscriptions
-                </Item>
-                <Hr />
-                <Item>
-                  <VideoLibraryOutlinedIcon />
-                    Library
-                </Item>
-                <Item>
-                  <HistoryIcon />
-                    History
-                </Item>
-                <Hr />
-                <Login>
-                    Sign in to access all features
-                  <Button> <AccountCircleOutlinedIcon /> Sign in</Button>
-                </Login>
-                <Hr />
-                <Title>BEST OF WATCHTUBE</Title>
-                {/* <Item>
-                  <YouTubeIcon />
-                    WatchTube Premium
-                </Item> */}
-                <Item>
-                  <LibraryMusicOutlinedIcon />
-                    Music
-                </Item>
-                <Item>
-                  <SportsBasketballOutlinedIcon />
-                    Sports
-                </Item>
-                <Item>
-                  <SportsEsportsOutlinedIcon />
-                    Gaming
-                </Item>
-                <Item>
-                  <MovieCreationOutlinedIcon />
-                    Movies
-                </Item>
-                <Item>
-                  <ArticleOutlinedIcon />
-                    News
-                </Item>
-                <Item>
-                  <LiveTvIcon />
-                    Live
-                </Item>
-                <Hr />
-                <Item>
-                  <SettingsOutlinedIcon />
-                    Settings
-                </Item>
-                <Item>
-                  <FlagOutlinedIcon />
-                    Report
-                </Item>
-                <Item>
-                  <HelpOutlineOutlinedIcon />
-                    Help
-                </Item>
+        <LogoWrapper>
+          <DensityMediumIcon id="moreHorzIcon" onClick={sidebarToggle} />
+          <Link to="/" style={{textDecoration:"none"}} >
+              <Logo>
+                  <Img src={WatchTubeLogo} />
+                  WatchTube
+              </Logo>
+          </Link>
+        </LogoWrapper>
+        <Items>
+          <Link to="/" style={{textDecoration:"none"}}>
+            <Item className="active">
+              <HomeIcon className="icon" />
+                Home
+            </Item>
+          </Link>
+          
+          <Item>
+            <ExploreOutlinedIcon />
+              Explore
+          </Item>
+          <Item>
+            <SubscriptionsOutlinedIcon />
+              Subscriptions
+          </Item>
+          <Hr />
+          <Item>
+            <VideoLibraryOutlinedIcon />
+              Library
+          </Item>
+          <Item>
+            <HistoryIcon />
+              History
+          </Item>
+          <Hr />
+          <Login>
+              Sign in to access all features
+            <Button> <AccountCircleOutlinedIcon /> Sign in</Button>
+          </Login>
+          <Hr />
+          <Title>BEST OF WATCHTUBE</Title>
+          {/* <Item>
+            <YouTubeIcon />
+              WatchTube Premium
+          </Item> */}
+          <Item>
+            <LibraryMusicOutlinedIcon />
+              Music
+          </Item>
+          <Item>
+            <SportsBasketballOutlinedIcon />
+              Sports
+          </Item>
+          <Item>
+            <SportsEsportsOutlinedIcon />
+              Gaming
+          </Item>
+          <Item>
+            <MovieCreationOutlinedIcon />
+              Movies
+          </Item>
+          <Item>
+            <ArticleOutlinedIcon />
+              News
+          </Item>
+          <Item>
+            <LiveTvIcon />
+              Live
+          </Item>
+          <Hr />
+          <Item>
+            <SettingsOutlinedIcon />
+              Settings
+          </Item>
+          <Item>
+            <FlagOutlinedIcon />
+              Report
+          </Item>
+          <Item>
+            <HelpOutlineOutlinedIcon />
+              Help
+          </Item>
           <ThemeButton onClick={() => { setDarkMode(!darkMode); themeChange();  themeToLocalStorage()}} id="themeBtn">
-                  <SettingsBrightnessOutlinedIcon id="themeIcon"/>
-                    <p id="themeBtnTxt">Light Mode</p> 
-                </ThemeButton>
-              </Items>
+              <SettingsBrightnessOutlinedIcon id="themeIcon"/>
+              <p id="themeBtnTxt">Light Mode</p> 
+          </ThemeButton>
+        </Items>
         </Wrapper>
     </Container>
   )

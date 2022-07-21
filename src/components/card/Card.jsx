@@ -5,63 +5,83 @@ import Thumbnail from "../../assets/img/thumbnails/thumbnail1.jpg"
 
 const Container = styled.div`
     color: ${({ theme }) => theme.text };
-    width: 360px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    /* display: flex;
-    flex-wrap: wrap; */
-    /* justify-content: space-between; */
+    width: ${(props) => props.type === "small" ? "100%" : "352px"};
+    margin-bottom: ${(props) => props.type === "small" ? "0.8rem" : "2.5rem"};
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex-direction: ${(props) => props.type === "small" && "row"};
+
 `;
 
 const Image = styled.img`
     width: 100%;
-    height: 202px;
+    height: ${(props) => props.type === "small" ? "94px" : "402px"}; 
     background-color: #999;
+    cursor: pointer;
 `;
 
-const Img = styled.div`
-
+const Img = styled.img`
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: ${(props) => props.type === "small" ? "none" : "block"};
 `;
 
 const Title = styled.div`
-
+  cursor: pointer;
+  font-size: ${(props) => props.type === "small" ? "14px" : "16px"};
 `;
 
 const ChannelName = styled.div`
-
+  font-size: 12px;
+  color: ${({ theme }) => theme.textSoft};
+  cursor: pointer;
 `;
 
 const Details = styled.div`
-
+  display: flex;
+  gap: 1rem;
 `;
 
-const ProperCard = styled.div`
-  /* display: flex; */
+const VideoStats = styled.div`
+  
+`;
+const VideoReach = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+  font-size: 12px;
+  color: ${({ theme }) => theme.textSoft};
+  div{
+    display: flex;
+    gap: 0.6rem;
+  }
+  p{
+    margin: 0;
+  }
 `;
 
 
-const Card = () => {
-  // console.log(VideoData)
+const Card = ({type}) => {
   return (
-    <Container>
-      {VideoData.map((data, i) => {
-        return (
-          <ProperCard key={i}>
-            <Image src={data.img} />
-            <Details>
-              <Img></Img>
+    <Container type={type}>
+      <Image src={Thumbnail} type={ type } />
+        <Details type={type}>
+          <Img src={Thumbnail} type={type}></Img>
+          <VideoStats type={type}>
+            <Title type={type}>A great video to end your day | Summer Edition | Be Grateful</Title>
+            <VideoReach>
+              <ChannelName>Be grateful</ChannelName>
               <div>
-                <Title>{data.title}</Title>
-                <ChannelName>{data.channel}</ChannelName>
-                <div>
-                  <p>{data.views}</p>
-                  <p>{ data.uploaded}</p>
-                </div>
+                <p>232K views &nbsp; ·</p>
+                <p>1 week ago</p>
               </div>
-            </Details>
-          </ProperCard>
-        )
-      })}
+            </VideoReach>
+          </VideoStats>
+        </Details>
     </Container>
   )
 }

@@ -6,7 +6,7 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 30px 30px 0rem 30px;
+    padding: 20px 20px 0rem 20px;
 `;
 const Card = styled.div`
     color: ${({ theme }) => theme.text };

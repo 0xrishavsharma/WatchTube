@@ -9,11 +9,12 @@ import Thumbnail20 from "../assets/img/thumbnails/thumbnail20.jpg";
 import Thumbnail2 from "../assets/img/thumbnails/thumbnail2.jpg";
 import SortIcon from '@mui/icons-material/Sort';
 import CommentSection from "../components/commentSection/CommentSection";
+import Card from "../components/card/Card"
 
 const Container = styled.div`
   display: flex;
-  padding: 30px 30px 0px 30px;
-  gap: 2rem;
+  padding: 20px 20px 0px 20px;
+  gap: 20px;
   color: ${({theme}) => theme.text};
 `;
 const Content = styled.div`
@@ -68,8 +69,9 @@ const Hr = styled.hr`
 `;
 
 const Recommendations = styled.div`
-  flex: 1.5;
+  flex: 2;
 `;
+
 const ChannelContainer = styled.div`
   display: flex;
   gap: 1rem;
@@ -175,7 +177,18 @@ const Video = () => {
 
       
       <Recommendations>
-        Recommendations
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
+        <Card type="small"/>
       </Recommendations>
     </Container>
   )
