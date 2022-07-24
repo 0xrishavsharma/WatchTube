@@ -22,15 +22,15 @@ import { Link } from "react-router-dom";
 import Home from "../../pages/Home";
 
 const Container = styled.div`
-    flex: 1.3;
+    flex: 1.2;
     background-color: ${({theme})=> theme.bgLighter};
     height: 100vh;
     max-height: max-content;
     color: ${({ theme }) => theme.text};
     font-size: 14px;
     position: sticky;
-    top: 0;
-    left: 0;
+    top: 0%;
+    left: 0%;
     overflow: scroll;
     &::-webkit-scrollbar {
       display: none;
@@ -53,7 +53,6 @@ const LogoWrapper = styled.div`
       cursor: pointer;
     }
 `;
-
 
 const Logo = styled.div`
     display: flex;
@@ -144,7 +143,6 @@ const ThemeButton = styled.button`
 `;
 
 const themeChange = () => {
-  let themeBtn = document.getElementById("themeBtn");
   let themeBtnTxt = document.getElementById("themeBtnTxt");
   if (themeBtnTxt.innerHTML == "Light Mode") {
     themeBtnTxt.innerHTML = "Dark Mode";
@@ -152,19 +150,6 @@ const themeChange = () => {
     themeBtnTxt.innerHTML = "Dark Mode";
   } 
 }
-
-const sidebarToggle = () => {
-  let sidebar = document.getElementById("sidebar");
-  if (sidebar.style.position === "sticky") {
-    sidebar.style.position = "absolute";
-    sidebar.style.left = "-100%"
-  } else{
-    sidebar.style.position = "sticky";
-    sidebar.style.left = "0";
-  }
-}
-
-
 
 const Sidebar = ({ darkMode, setDarkMode }) => {
   const themeToLocalStorage = () => {
@@ -178,11 +163,24 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
       console.log("Light mode activated")
     }
   }
+
+// const sidebarToggle = async () => {
+//   let sidebar = document.getElementById("sidebar");
+//   console.log("Got the element Sidebar", sidebar)
+//     if (sidebar.style.position === "sticky") {
+//       sidebar.style.position = "absolute";
+//       sidebar.style.left = "-100%";
+//     } if(sidebar.style.position = "absolute"){
+//       sidebar.style.position = "sticky";
+//       sidebar.style.left = "0%";
+//     }
+//   }
+  
   return (
     <Container id='sidebar'>
       <Wrapper>
         <LogoWrapper>
-          <DensityMediumIcon id="moreHorzIcon" onClick={sidebarToggle} />
+          <DensityMediumIcon id="moreHorzIcon"/>
           <Link to="/" style={{textDecoration:"none"}} >
               <Logo>
                   <Img src={WatchTubeLogo} />

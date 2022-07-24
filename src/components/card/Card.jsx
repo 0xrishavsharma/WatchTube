@@ -31,11 +31,11 @@ const Img = styled.img`
 
 const Title = styled.div`
   cursor: pointer;
-  font-size: ${(props) => props.type === "small" ? "14px" : "16px"};
+  font-size: ${(props) => props.type === "small" ? "12px" : "16px"};
 `;
 
 const ChannelName = styled.div`
-  font-size: 12px;
+  font-size: 10px;
   color: ${({ theme }) => theme.textSoft};
   cursor: pointer;
 `;
@@ -53,11 +53,11 @@ const VideoReach = styled.div`
   flex-direction: column;
   gap: 0.2rem;
   margin-top: 0.5rem;
-  font-size: 12px;
+  font-size: 10px;
   color: ${({ theme }) => theme.textSoft};
   div{
     display: flex;
-    gap: 0.6rem;
+    gap: 0.1rem;
   }
   p{
     margin: 0;
@@ -72,11 +72,11 @@ const Card = ({type}) => {
         <Details type={type}>
           <Img src={Thumbnail} type={type}></Img>
           <VideoStats type={type}>
-            <Title type={type}>A great video to end your day | Summer Edition | Be Grateful</Title>
+            <Title type={type}>A great video to end your day | Summer Edition</Title>
             <VideoReach>
               <ChannelName>Be grateful</ChannelName>
               <div>
-                <p>232K views &nbsp; ·</p>
+                <p>232K views &nbsp;</p>
                 <p>1 week ago</p>
               </div>
             </VideoReach>

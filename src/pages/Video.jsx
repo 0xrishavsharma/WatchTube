@@ -131,8 +131,6 @@ const Description = styled.div`
 `;
 
 
-
-
 const Video = () => {
   return (
     <Container>
@@ -174,9 +172,9 @@ const Video = () => {
         <Hr />
         <CommentSection />
       </Content>
-
-      
       <Recommendations>
+        <Card type="small"/>
+        <Card type="small"/>
         <Card type="small"/>
         <Card type="small"/>
         <Card type="small"/>
