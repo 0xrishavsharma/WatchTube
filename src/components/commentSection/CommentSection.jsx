@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import ProfileImg from "../../assets/img/thumbnails/Thumbnail2.jpg";
+import ProfileImg from "../../assets/img/thumbnails/thumbnail2.jpg";
 import SortIcon from '@mui/icons-material/Sort';
 import Comment from '../comment/Comment';
 
