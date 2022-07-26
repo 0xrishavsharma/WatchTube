@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import Thumbnail2 from "../../assets/img/thumbnails/Thumbnail2.jpg";
+import ProfileImg from "../../assets/img/thumbnails/Thumbnail2.jpg";
 import SortIcon from '@mui/icons-material/Sort';
 import Comment from '../comment/Comment';
 
@@ -64,7 +64,7 @@ const CommentSection = () => {
             <SortBy> <SortIcon /> SORT BY </SortBy>
         </CommentsStats>
         <NewComment>
-            <UserAvatar src={Thumbnail2}></UserAvatar>
+            <UserAvatar src={ProfileImg}></UserAvatar>
             <Input placeholder="Add a comment..."></Input>
             <Hr />      
         </NewComment>
