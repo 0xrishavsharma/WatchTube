@@ -15,7 +15,7 @@ const Container = styled.div`
   display: flex;
   padding: 20px 20px 0px 20px;
   gap: 20px;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 const Content = styled.div`
   flex: 5;
@@ -42,6 +42,10 @@ const Info = styled.div`
   gap: 0.4rem;
   color: ${({ theme }) => theme.textSoft};
   font-size: 14px;
+
+  @media screen and (max-width:152px){
+    flex-direction: column;
+  }
 `;
 const InteractionButtons = styled.div`
   display: flex;

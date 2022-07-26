@@ -37,10 +37,48 @@ const Container = styled.div`
     }
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    @media screen and (max-width: 1066px) {
+      flex: 0.38;
+    }
+    @media screen and (max-width: 1004px) {
+      flex: 0.4;
+    }
+    @media screen and (max-width: 908px) {
+      flex: 0.42;
+    }
+    @media screen and (max-width: 824px) {
+      flex: 0.5;
+    }
+    @media screen and (max-width: 786px) {
+      flex: 0.6;
+    }
+    @media screen and (max-width: 596px) {
+      flex: 0.65;
+    }
+    @media screen and (max-width: 560px) {
+      flex: 0.7;
+    }
+    @media screen and (max-width: 535px) {
+      flex: 0.8;
+    }
+    @media screen and (max-width: 478px) {
+      flex: 0.9;
+    }
+    @media screen and (max-width: 450px) {
+      flex: 1;
+    }
+    @media screen and (max-width: 418px) {
+      flex: 1.15;
+    }
 `;
 
 const Wrapper = styled.div`
     padding: 1.2rem 0rem;
+    @media screen and (max-width:458px) {
+      padding: 0.8rem 0rem;
+      margin-top: 0.8rem;
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -51,7 +89,15 @@ const LogoWrapper = styled.div`
     padding:0rem 1.6rem;
     #moreHorzIcon{
       cursor: pointer;
+
+      @media screen and (max-width: 1066px) {
+        display: none;
+        padding: 0rem 0.8rem;
+      }
     }
+    @media screen and (max-width: 1066px) {
+        padding: 0rem 0.8rem;
+      }
 `;
 
 const Logo = styled.div`
@@ -64,6 +110,16 @@ const Logo = styled.div`
     font-size: 1rem;
     letter-spacing: -0.4px;
     cursor: pointer;
+
+    p{
+      margin: 0px;
+      padding: 0px;
+
+      @media screen and (max-width: 1276px){
+        display: none;
+      }
+    }
+    
 `;
 
 const Img = styled.img`
@@ -82,6 +138,16 @@ const Item = styled.div`
   font-weight: 300;
   color: ${({theme}) => theme.text};
   cursor: pointer;
+  p{
+    margin: 0;
+    padding: 0;
+
+    @media screen and (max-width: 1066px) {
+      font-size: 12px;
+      display: none;
+      padding: 7.5px 0.8rem;
+    }
+  }
   &.active{
     background-color: ${({ theme }) => theme.bgHover};
     font-weight: 400;
@@ -95,11 +161,20 @@ const Item = styled.div`
   .icon{
     font-weight: 300;
   }
+
+  @media screen and (max-width: 1066px) {
+    font-size: 12px;
+    padding: 7.5px 0.8rem;
+  }
 `;
 const Title = styled.p`
   color: #aaaaaa;
   font-weight: 600;
   padding:0rem 1.6rem;
+
+  @media screen and (max-width: 1066px) {
+      display: none;
+    }
 `;
 
 const Hr = styled.hr`
@@ -110,9 +185,23 @@ const Login = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  padding: 7.5px 0px;
+  /* padding: 7.5px 0px; */
   max-width: max-content;
   padding:0rem 1.6rem;
+  p{
+    margin: 0;
+    padding: 0;
+    @media screen and (max-width: 1066px) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1066px) {
+    font-size: 12px;
+    display: block;
+    min-width: max-content;
+    padding:0rem 0.8rem;
+  }
 `;
 const Button = styled.button`
   display: flex;
@@ -126,6 +215,24 @@ const Button = styled.button`
   border-radius: 2px;
   font-weight: 500;
   cursor: pointer;
+
+  @media screen and (max-width: 1066px) {
+    padding: 0.1rem 0.2rem;
+    gap: 0;
+    display: block;
+    border: none;
+    min-width: max-content;
+  }
+  p{
+    margin: 0;
+    padding: 0;
+
+    @media screen and (max-width: 1066px) {
+      font-size: 12px;
+      display: none;
+    }
+  }
+ 
 `;
 
 
@@ -140,6 +247,20 @@ const ThemeButton = styled.button`
   color: ${({ theme }) => theme.text};
   padding:0rem 1.6rem;
   width: 100%;
+  p{
+    margin: 0;
+    padding: 0;
+    @media screen and (max-width: 1066px) {
+      font-size: 12px;
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1066px) {
+    font-size: 12px;
+    padding:0rem 0.8rem;
+    margin-top: 5px;
+  }
 `;
 
 const themeChange = () => {
@@ -184,7 +305,7 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
           <Link to="/" style={{textDecoration:"none"}} >
               <Logo>
                   <Img src={WatchTubeLogo} />
-                  WatchTube
+                  <p>WatchTube</p>
               </Logo>
           </Link>
         </LogoWrapper>
@@ -192,31 +313,31 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
           <Link to="/" style={{textDecoration:"none"}}>
             <Item className="active">
               <HomeIcon className="icon" />
-                Home
+               <p>Home</p> 
             </Item>
           </Link>
           
           <Item>
             <ExploreOutlinedIcon />
-              Explore
+             <p>Explore</p> 
           </Item>
           <Item>
             <SubscriptionsOutlinedIcon />
-              Subscriptions
+             <p>Subscriptions</p> 
           </Item>
           <Hr />
           <Item>
             <VideoLibraryOutlinedIcon />
-              Library
+             <p>Library</p> 
           </Item>
           <Item>
             <HistoryIcon />
-              History
+             <p>History</p> 
           </Item>
           <Hr />
           <Login>
-              Sign in to access all features
-            <Button> <AccountCircleOutlinedIcon /> Sign in</Button>
+             <p>Sign in to access all features</p> 
+            <Button> <AccountCircleOutlinedIcon /> <p>Sign in</p> </Button>
           </Login>
           <Hr />
           <Title>BEST OF WATCHTUBE</Title>
@@ -226,40 +347,40 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
           </Item> */}
           <Item>
             <LibraryMusicOutlinedIcon />
-              Music
+             <p>Music</p> 
           </Item>
           <Item>
             <SportsBasketballOutlinedIcon />
-              Sports
+             <p>Sports</p> 
           </Item>
           <Item>
             <SportsEsportsOutlinedIcon />
-              Gaming
+             <p>Gaming</p> 
           </Item>
           <Item>
             <MovieCreationOutlinedIcon />
-              Movies
+             <p>Movies</p> 
           </Item>
           <Item>
             <ArticleOutlinedIcon />
-              News
+             <p>News</p> 
           </Item>
           <Item>
             <LiveTvIcon />
-              Live
+             <p>Live</p> 
           </Item>
           <Hr />
           <Item>
             <SettingsOutlinedIcon />
-              Settings
+             <p>Settings</p> 
           </Item>
           <Item>
             <FlagOutlinedIcon />
-              Report
+             <p>Report</p> 
           </Item>
           <Item>
             <HelpOutlineOutlinedIcon />
-              Help
+             <p>Help</p> 
           </Item>
           <ThemeButton onClick={() => { setDarkMode(!darkMode); themeChange();  themeToLocalStorage()}} id="themeBtn">
               <SettingsBrightnessOutlinedIcon id="themeIcon"/>
@@ -271,4 +392,4 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
   )
 }
 
-export default Sidebar
+export default Sidebar;

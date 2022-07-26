@@ -15,8 +15,8 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-    width: 100%;
-    height: ${(props) => props.type === "small" ? "94px" : "402px"}; 
+    max-width: 85%;
+    height: ${(props) => props.type === "small" ? "94px" : "402px"};
     background-color: #999;
     cursor: pointer;
 `;
@@ -58,6 +58,10 @@ const VideoReach = styled.div`
   div{
     display: flex;
     gap: 0.1rem;
+
+    @media screen and (max-width:1252px){
+      flex-direction: column;
+    }
   }
   p{
     margin: 0;
@@ -72,7 +76,7 @@ const Card = ({type}) => {
         <Details type={type}>
           <Img src={Thumbnail} type={type}></Img>
           <VideoStats type={type}>
-            <Title type={type}>A great video to end your day | Summer Edition</Title>
+            <Title type={type}>A great video to end your day</Title>
             <VideoReach>
               <ChannelName>Be grateful</ChannelName>
               <div>

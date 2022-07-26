@@ -5,25 +5,48 @@ import { VideoData } from "../utils/database.js";
 const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    column-gap: 20px;
+    /* row-gap: 3rem; */
     padding: 20px 20px 0rem 20px;
 `;
+
 const Card = styled.div`
     color: ${({ theme }) => theme.text };
-    width: 271px;
-    margin-bottom: 30px;
+    min-width: 245px;
+    max-width: 296px;
+    min-height: 138px;
+    max-height: 172px;
+    flex: 1;
+    margin-bottom: 100px;
+    @media screen and (max-width: 1265px) {
+      min-width: 245px;
+      max-width: 330px;
+      min-height: 138px;
+      max-height: 180px;
+    }
+    @media screen and (max-width: 954px) {
+      min-width: 225px;
+      max-width: 330px;
+      min-height: 118px;
+      max-height: 180px;
+    }
 `;
 const Image = styled.img`
     width: 100%;
-    height: 152px;
+    height: 100%;
     background-color: #999;
     cursor: pointer;
 `;
 
 const Img = styled.img`
-  height:36px;
+  height: 36px;
   width: 36px;
   border-radius: 50%;
+
+  @media screen and (max-width: 1362px) {
+      justify-content: inherit;
+    }
 `;
 
 const Title = styled.div`
