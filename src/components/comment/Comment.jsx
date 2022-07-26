@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Thumbnail2 from "../../assets/img/thumbnails/Thumbnail2.jpg";
+import Thumbnail2 from "../../assets/img/thumbnails/thumbnail2.jpg";
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
