@@ -26,7 +26,7 @@ const UserAvatar = styled.img`
     border-radius: 50%;
 `;
 const Hr = styled.hr`
-  border: 0.5px solid ${({theme}) => theme.soft};
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 const CommentDetails = styled.div`
   
@@ -44,7 +44,7 @@ const Name = styled.div`
 `;
 const PostedDate = styled.div`
   font-size: 12px;
-  color: ${({theme}) => theme.textSoft};
+  color: ${({ theme }) => theme.textSoft};
 `;
 const CommentTxt = styled.div`
   font-size: 14px;
@@ -105,28 +105,28 @@ const commentMoreInfo = () => {
 const Comment = () => {
   return (
     <Container>
-        <Wrapper>
-            <UserAvatar src={Thumbnail2}></UserAvatar>
-            <CommentDetails>
-                <NameAndDate>
-                    <Name>Rakesh Gautam</Name>
-                    <PostedDate>3 weeks ago</PostedDate>
-                </NameAndDate>
-                <CommentTxt>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis maiores dignissimos nostrum enim quidem, numquam doloribus ab corporis nemo, magni delectus atque vero.</CommentTxt>
-                <InteractionBtns>
-                      <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> 23 </InteractionBtnSingle>
-                      <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /></InteractionBtnSingle>
-                    <p>REPLY</p>
-                </InteractionBtns>
-            </CommentDetails>
-            <MoreInfoBtn className='moreInfoBtn' >
-                <MoreVertIcon id="moreInfoIcon" onClick={commentMoreInfo} />
-                <ReportPopUp id="reportPopUp" className="reportPopUpToggle">
-                    <EmojiFlagsIcon className='icon' />
-                    <p>Report</p>
-                </ReportPopUp>
-            </MoreInfoBtn>
-        </Wrapper>
+      <Wrapper>
+        <UserAvatar src={Thumbnail2}></UserAvatar>
+        <CommentDetails>
+          <NameAndDate>
+            <Name>John Doe</Name>
+            <PostedDate>3 weeks ago</PostedDate>
+          </NameAndDate>
+          <CommentTxt>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis maiores dignissimos nostrum enim quidem, numquam doloribus ab corporis nemo, magni delectus atque vero.</CommentTxt>
+          <InteractionBtns>
+            <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> 23 </InteractionBtnSingle>
+            <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /></InteractionBtnSingle>
+            <p>REPLY</p>
+          </InteractionBtns>
+        </CommentDetails>
+        <MoreInfoBtn className='moreInfoBtn' >
+          <MoreVertIcon id="moreInfoIcon" onClick={commentMoreInfo} />
+          <ReportPopUp id="reportPopUp" className="reportPopUpToggle">
+            <EmojiFlagsIcon className='icon' />
+            <p>Report</p>
+          </ReportPopUp>
+        </MoreInfoBtn>
+      </Wrapper>
     </Container>
   )
 }
