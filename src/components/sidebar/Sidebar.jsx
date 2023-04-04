@@ -23,7 +23,7 @@ import Home from "../../pages/Home";
 
 const Container = styled.div`
     flex: 1.2;
-    background-color: ${({theme})=> theme.bgLighter};
+    background-color: ${({ theme }) => theme.bgLighter};
     height: 100vh;
     max-height: max-content;
     color: ${({ theme }) => theme.text};
@@ -136,7 +136,7 @@ const Item = styled.div`
   gap: 1rem;
   padding: 7.5px 1.6rem;
   font-weight: 300;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
   cursor: pointer;
   p{
     margin: 0;
@@ -152,11 +152,11 @@ const Item = styled.div`
     background-color: ${({ theme }) => theme.bgHover};
     font-weight: 400;
     &:hover{
-    background-color: ${({theme}) => theme.bgHoverLight};
+    background-color: ${({ theme }) => theme.bgHoverLight};
   }
   }
   &:hover{
-    background-color: ${({theme}) => theme.bgHover};
+    background-color: ${({ theme }) => theme.bgHover};
   }
   .icon{
     font-weight: 300;
@@ -179,7 +179,7 @@ const Title = styled.p`
 
 const Hr = styled.hr`
   margin: 15px 0px;
-  border: 0.4px solid ${({theme}) => theme.soft};
+  border: 0.4px solid ${({ theme }) => theme.soft};
 `;
 const Login = styled.div`
   display: flex;
@@ -269,7 +269,7 @@ const themeChange = () => {
     themeBtnTxt.innerHTML = "Dark Mode";
   } if (themeBtnTxt.innerHTML == "Light Mode") {
     themeBtnTxt.innerHTML = "Dark Mode";
-  } 
+  }
 }
 
 const Sidebar = ({ darkMode, setDarkMode }) => {
@@ -285,59 +285,61 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
     }
   }
 
-// const sidebarToggle = async () => {
-//   let sidebar = document.getElementById("sidebar");
-//   console.log("Got the element Sidebar", sidebar)
-//     if (sidebar.style.position === "sticky") {
-//       sidebar.style.position = "absolute";
-//       sidebar.style.left = "-100%";
-//     } if(sidebar.style.position = "absolute"){
-//       sidebar.style.position = "sticky";
-//       sidebar.style.left = "0%";
-//     }
-//   }
-  
+  // const sidebarToggle = async () => {
+  //   let sidebar = document.getElementById("sidebar");
+  //   console.log("Got the element Sidebar", sidebar)
+  //     if (sidebar.style.position === "sticky") {
+  //       sidebar.style.position = "absolute";
+  //       sidebar.style.left = "-100%";
+  //     } if(sidebar.style.position = "absolute"){
+  //       sidebar.style.position = "sticky";
+  //       sidebar.style.left = "0%";
+  //     }
+  //   }
+
   return (
     <Container id='sidebar'>
       <Wrapper>
         <LogoWrapper>
-          <DensityMediumIcon id="moreHorzIcon"/>
-          <Link to="/" style={{textDecoration:"none"}} >
-              <Logo>
-                  <Img src={WatchTubeLogo} />
-                  <p>WatchTube</p>
-              </Logo>
+          <DensityMediumIcon id="moreHorzIcon" />
+          <Link to="/" style={{ textDecoration: "none" }} >
+            <Logo>
+              <Img src={WatchTubeLogo} />
+              <p>WatchTube</p>
+            </Logo>
           </Link>
         </LogoWrapper>
         <Items>
-          <Link to="/" style={{textDecoration:"none"}}>
+          <Link to="/">
             <Item className="active">
               <HomeIcon className="icon" />
-               <p>Home</p> 
+              <p>Home</p>
             </Item>
           </Link>
-          
+
           <Item>
             <ExploreOutlinedIcon />
-             <p>Explore</p> 
+            <p>Explore</p>
           </Item>
           <Item>
             <SubscriptionsOutlinedIcon />
-             <p>Subscriptions</p> 
+            <p>Subscriptions</p>
           </Item>
           <Hr />
           <Item>
             <VideoLibraryOutlinedIcon />
-             <p>Library</p> 
+            <p>Library</p>
           </Item>
           <Item>
             <HistoryIcon />
-             <p>History</p> 
+            <p>History</p>
           </Item>
           <Hr />
           <Login>
-             <p>Sign in to access all features</p> 
-            <Button> <AccountCircleOutlinedIcon /> <p>Sign in</p> </Button>
+            <p>Sign in to access all features</p>
+            <Link to="/login">
+              <Button> <AccountCircleOutlinedIcon /> <p>Sign in</p> </Button>
+            </Link>
           </Login>
           <Hr />
           <Title>BEST OF WATCHTUBE</Title>
@@ -347,48 +349,48 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
           </Item> */}
           <Item>
             <LibraryMusicOutlinedIcon />
-             <p>Music</p> 
+            <p>Music</p>
           </Item>
           <Item>
             <SportsBasketballOutlinedIcon />
-             <p>Sports</p> 
+            <p>Sports</p>
           </Item>
           <Item>
             <SportsEsportsOutlinedIcon />
-             <p>Gaming</p> 
+            <p>Gaming</p>
           </Item>
           <Item>
             <MovieCreationOutlinedIcon />
-             <p>Movies</p> 
+            <p>Movies</p>
           </Item>
           <Item>
             <ArticleOutlinedIcon />
-             <p>News</p> 
+            <p>News</p>
           </Item>
           <Item>
             <LiveTvIcon />
-             <p>Live</p> 
+            <p>Live</p>
           </Item>
           <Hr />
           <Item>
             <SettingsOutlinedIcon />
-             <p>Settings</p> 
+            <p>Settings</p>
           </Item>
           <Item>
             <FlagOutlinedIcon />
-             <p>Report</p> 
+            <p>Report</p>
           </Item>
           <Item>
             <HelpOutlineOutlinedIcon />
-             <p>Help</p> 
+            <p>Help</p>
           </Item>
-          <ThemeButton onClick={() => { setDarkMode(!darkMode); themeChange();  themeToLocalStorage()}} id="themeBtn">
-              <SettingsBrightnessOutlinedIcon id="themeIcon"/>
-              <p id="themeBtnTxt">Light Mode</p> 
+          <ThemeButton onClick={() => { setDarkMode(!darkMode); themeChange(); themeToLocalStorage() }} id="themeBtn">
+            <SettingsBrightnessOutlinedIcon id="themeIcon" />
+            <p id="themeBtnTxt">Light Mode</p>
           </ThemeButton>
         </Items>
-        </Wrapper>
-    </Container>
+      </Wrapper>
+    </Container >
   )
 }
 

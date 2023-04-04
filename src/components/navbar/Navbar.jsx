@@ -1,16 +1,19 @@
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  background-color: ${({theme}) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bgLighter};
+  height: 56px;
 `;
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 1.2rem 1.6rem;
+  padding: 0rem 1.6rem;
   position:relative;
+  height: 100%;
   @media screen and (max-width: 778px) {
     
   }
@@ -50,21 +53,20 @@ const Input = styled.input`
   outline: none;
   border: none;
   background: transparent;
-  height: 30px;
+  height: 22px;
   width: 300px;
   font-size: 14px;
   color: ${({ theme }) => theme.text};
 
   @media screen and (max-width:576px) {
-    height: 25px;
+    height: 20px;
     width: 180px;
   }
   @media screen and (max-width:458px) {
-    height: 20px;
+    height: 18px;
     width: 140px;
   }
   @media screen and (max-width:398px) {
-    height: 20px;
     width: 100px;
   }
   @media screen and (max-width:340px) {
@@ -114,10 +116,12 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Search>
-            <Input placeholder="Search" />
-            <SearchOutlinedIcon className="searchIcon" />
+          <Input placeholder="Search" />
+          <SearchOutlinedIcon className="searchIcon" />
         </Search>
-        <Button> <AccountCircleOutlinedIcon className="signInIcon"/> Sign in</Button>
+        <Link to="/login">
+          <Button> <AccountCircleOutlinedIcon className="signInIcon" /> Sign in</Button>
+        </Link>
       </Wrapper>
     </Container>
   )
