@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import { VideoData } from "../utils/database.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import CardComponent from "../components/card/Card.jsx";
 
 const Container = styled.div`
     display: flex;
@@ -12,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-    color: ${({ theme }) => theme.text };
+    color: ${({ theme }) => theme.text};
     min-width: 245px;
     max-width: 296px;
     min-height: 138px;
@@ -53,7 +56,7 @@ const Title = styled.div`
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  color: ${({theme}) => theme.text};
+  color: ${({ theme }) => theme.text};
 `;
 const ViewsTime = styled.div`
   margin-top: 0.3rem;
@@ -84,36 +87,52 @@ const UploadDate = styled.div`
 `;
 
 
+const Home = ({ type }) => {
+  const [videos, setVideos] = useState([]);
 
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const res = await axios.get(`/api/videos/${type}`);
+        setVideos(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchVideos();
+  }, [type]);
 
-
-const Home = () => {
   return (
     <Container>
-        {VideoData.map((data, i) => {
+      {/* {VideoData.map((data, i) => {
         return (
           <Card key={i}>
-            <Link to="/video/test" style={{textDecoration:"none"}}>
-              <Image src={data.thumbnail}  />
+            <Link to="/video/test" style={{ textDecoration: "none" }}>
+              <Image src={data.thumbnail} />
             </Link>
             <Details>
-              <Img src={ data.channelImg }></Img>
+              <Img src={data.channelImg}></Img>
               <DetailsInner>
-                <Link to="/video/test" style={{textDecoration:"none"}} >
+                <Link to="/video/test" style={{ textDecoration: "none" }} >
                   <Title>{data.title}</Title>
                 </Link>
                 <AdditionalInfo className="additionInfo">
-                    <ChannelName>{data.channel}</ChannelName>
+                  <ChannelName>{data.channel}</ChannelName>
                   <ViewsTime>
                     <Views>{data.views} </Views>
-                    <UploadDate>{ data.uploaded}</UploadDate>
+                    <UploadDate>{data.uploaded}</UploadDate>
                   </ViewsTime>
                 </AdditionalInfo>
               </DetailsInner>
             </Details>
           </Card>
         )
-      })}
+      })} */}
+      {
+        videos.map(video => {
+          return <CardComponent key={video._id} video={video} />
+        })
+      }
     </Container>
   )
 }

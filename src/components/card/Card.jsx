@@ -1,27 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { VideoData } from "../../utils/database.js";
 import Thumbnail from "../../assets/img/thumbnails/thumbnail1.jpg"
+import { Link } from 'react-router-dom';
+import { format } from "timeago.js"
+import axios from 'axios';
 
 const Container = styled.div`
-    color: ${({ theme }) => theme.text };
+    color: ${({ theme }) => theme.text};
     width: ${(props) => props.type === "small" ? "100%" : "352px"};
     margin-bottom: ${(props) => props.type === "small" ? "0.8rem" : "2.5rem"};
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
     flex-direction: ${(props) => props.type === "small" && "row"};
-
 `;
 
 const Image = styled.img`
     max-width: 85%;
-    height: ${(props) => props.type === "small" ? "94px" : "402px"};
+    height: ${(props) => props.type === "small" && "94px"};
     background-color: #999;
     cursor: pointer;
 `;
 
-const Img = styled.img`
+const ChannelImage = styled.img`
   height: 36px;
   width: 36px;
   border-radius: 50%;
@@ -69,23 +71,38 @@ const VideoReach = styled.div`
 `;
 
 
-const Card = ({type}) => {
+const Card = ({ type, video }) => {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      try {
+        const res = await axios.get(`/api/users/find/${video.userId}`);
+        setChannel(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchChannel();
+  }, [video.userId]);
   return (
     <Container type={type}>
-      <Image src={Thumbnail} type={ type } />
-        <Details type={type}>
-          <Img src={Thumbnail} type={type}></Img>
-          <VideoStats type={type}>
-            <Title type={type}>A great video to end your day</Title>
-            <VideoReach>
-              <ChannelName>Be grateful</ChannelName>
-              <div>
-                <p>232K views &nbsp;</p>
-                <p>1 week ago</p>
-              </div>
-            </VideoReach>
-          </VideoStats>
-        </Details>
+      <Link to="/test/video">
+        <Image src={Thumbnail} type={type} />
+      </Link>
+      <Details type={type}>
+        <ChannelImage src={channel.img} type={type} />
+        <VideoStats type={type}>
+          <Title type={type}>{video.videoTitle}</Title>
+          <VideoReach>
+            <ChannelName>{channel.name}</ChannelName>
+            <div>
+              <p>{video.views} views &nbsp;</p>
+              <p>· {format(video.createdAt)}</p>
+            </div>
+          </VideoReach>
+        </VideoStats>
+      </Details>
     </Container>
   )
 }

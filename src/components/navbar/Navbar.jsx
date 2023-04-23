@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
@@ -30,6 +32,7 @@ const Search = styled.div`
   max-width: max-content;
   margin: auto;
 
+  // Search Icon
   .searchIcon{
     font-size: 16px;
     color: #ffffff4f;
@@ -111,7 +114,24 @@ const Button = styled.button`
   }
 `;
 
+const User = styled.div`
+display: flex;
+gap: 0.8rem;
+align-items: center;
+font-weight: 500;
+color: ${({ theme }) => theme.text};
+`
+const Avatar = styled.div`
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: #999;
+`
+
+
+
 const Navbar = () => {
+  const { currentUser } = useSelector(state => state.user);
   return (
     <Container>
       <Wrapper>
@@ -119,11 +139,22 @@ const Navbar = () => {
           <Input placeholder="Search" />
           <SearchOutlinedIcon className="searchIcon" />
         </Search>
-        <Link to="/login">
-          <Button> <AccountCircleOutlinedIcon className="signInIcon" /> Sign in</Button>
-        </Link>
-      </Wrapper>
-    </Container>
+        {
+          currentUser ?
+            <User>
+              <VideoCallOutlinedIcon />
+              <Avatar />
+              {
+                currentUser.name
+              }
+            </User>
+            :
+            <Link to="/login">
+              <Button> <AccountCircleOutlinedIcon className="signInIcon" /> Sign in</Button>
+            </Link>
+        }
+      </Wrapper >
+    </Container >
   )
 }
 

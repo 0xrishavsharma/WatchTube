@@ -20,6 +20,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import { Link } from "react-router-dom";
 import Home from "../../pages/Home";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
     flex: 1.2;
@@ -169,7 +170,7 @@ const Item = styled.div`
 `;
 const Title = styled.p`
   color: #aaaaaa;
-  font-weight: 600;
+  font-weight: 500;
   padding:0rem 1.6rem;
 
   @media screen and (max-width: 1066px) {
@@ -235,18 +236,20 @@ const Button = styled.button`
  
 `;
 
-
 const ThemeButton = styled.button`
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 7.5px 0px;
+  padding: 7.5px 1.6rem;
+  /* margin-top: 0.4rem; */
   cursor:pointer;
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.text};
-  padding:0rem 1.6rem;
   width: 100%;
+  &:hover{
+    background-color: ${({ theme }) => theme.bgHover};
+  }
   p{
     margin: 0;
     padding: 0;
@@ -273,6 +276,8 @@ const themeChange = () => {
 }
 
 const Sidebar = ({ darkMode, setDarkMode }) => {
+  const currentUser = useSelector((state) => state.user.currentUser)
+
   const themeToLocalStorage = () => {
     let themeBtnTxt = document.getElementById("themeBtnTxt");
     if (themeBtnTxt.innerHTML == "Dark Mode") {
@@ -316,33 +321,43 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
               <p>Home</p>
             </Item>
           </Link>
-
-          <Item>
-            <ExploreOutlinedIcon />
-            <p>Explore</p>
-          </Item>
-          <Item>
-            <SubscriptionsOutlinedIcon />
-            <p>Subscriptions</p>
-          </Item>
+          <Link to="/trending">
+            <Item>
+              <ExploreOutlinedIcon />
+              <p>Explore</p>
+            </Item>
+          </Link>
+          <Link to="/subscriptions">
+            <Item>
+              <SubscriptionsOutlinedIcon />
+              <p>Subscriptions</p>
+            </Item>
+          </Link>
           <Hr />
-          <Item>
-            <VideoLibraryOutlinedIcon />
-            <p>Library</p>
-          </Item>
+          <Link to="/">
+            <Item>
+              <VideoLibraryOutlinedIcon />
+              <p>Library</p>
+            </Item>
+          </Link>
           <Item>
             <HistoryIcon />
             <p>History</p>
           </Item>
           <Hr />
-          <Login>
-            <p>Sign in to access all features</p>
-            <Link to="/login">
-              <Button> <AccountCircleOutlinedIcon /> <p>Sign in</p> </Button>
-            </Link>
-          </Login>
-          <Hr />
-          <Title>BEST OF WATCHTUBE</Title>
+          {
+            !currentUser &&
+            <>
+              <Login>
+                <p>Sign in to access all features</p>
+                <Link to="/login">
+                  <Button> <AccountCircleOutlinedIcon /> <p>Sign in</p> </Button>
+                </Link>
+              </Login>
+              <Hr />
+            </>
+          }
+          <Title>Best of WatchTube</Title>
           {/* <Item>
             <YouTubeIcon />
               WatchTube Premium
