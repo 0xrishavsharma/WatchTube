@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux"
 import { loginFailure, loginStart, loginSuccess } from '../store/userSlice';
+import { auth, provider } from '../firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 const Container = styled.div`
     display:flex;
@@ -97,6 +99,23 @@ const Login = () => {
         }
     }
 
+    const signInWithGoogle = async () => {
+        dispatch(loginStart());
+        signInWithPopup(auth, provider)
+            .then(async (result) => {
+                await axios.post("/api/auth/google", {
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    img: result.user.photoURL
+                }).then((res) => {
+                    dispatch(loginSuccess(res.data))
+                })
+            })
+            .catch(err =>
+                dispatch(loginFailure())
+            )
+    }
+
     return (
         <Container>
             <Wrapper>
@@ -105,6 +124,8 @@ const Login = () => {
                 <Input type='text' placeholder='username' onChange={(e) => setName(e.target.value)} />
                 <Input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
                 <Button onClick={handleLogin}>Log in</Button>
+                <Title>or</Title>
+                <Button onClick={signInWithGoogle}>Log in with Google</Button>
                 <Title>or</Title>
                 <Input type='username' placeholder='username' onChange={(e) => setName(e.target.value)} />
                 <Input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
