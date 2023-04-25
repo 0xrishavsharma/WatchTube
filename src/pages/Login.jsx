@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 import { loginFailure, loginStart, loginSuccess } from '../store/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const Container = styled.div`
     display:flex;
@@ -42,6 +43,18 @@ const Input = styled.input`
     color:${({ theme }) => theme.text};
 `
 const Button = styled.button`
+    border: none;
+    border-radius: 0.125rem;
+    padding: 0.625rem 1.25rem;
+    background-color: ${({ theme }) => theme.soft} ;
+    color: ${({ theme }) => theme.textSoft} ;
+    cursor: pointer;
+`
+const GoogleButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     border: none;
     border-radius: 0.125rem;
     padding: 0.625rem 1.25rem;
@@ -109,10 +122,14 @@ const Login = () => {
                     img: result.user.photoURL
                 }).then((res) => {
                     dispatch(loginSuccess(res.data))
+                    console.log(res, res.data)
                 })
             })
-            .catch(err =>
+
+            .catch((err) => {
                 dispatch(loginFailure())
+                console.log(err);
+            }
             )
     }
 
@@ -125,7 +142,14 @@ const Login = () => {
                 <Input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
                 <Button onClick={handleLogin}>Log in</Button>
                 <Title>or</Title>
-                <Button onClick={signInWithGoogle}>Log in with Google</Button>
+                <GoogleButton
+                    onClick={signInWithGoogle}
+                >
+                    <GoogleIcon />
+                    <span>
+                        Log in with Google
+                    </span>
+                </GoogleButton>
                 <Title>or</Title>
                 <Input type='username' placeholder='username' onChange={(e) => setName(e.target.value)} />
                 <Input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />

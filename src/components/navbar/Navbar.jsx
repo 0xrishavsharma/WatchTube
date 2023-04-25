@@ -121,14 +121,12 @@ align-items: center;
 font-weight: 500;
 color: ${({ theme }) => theme.text};
 `
-const Avatar = styled.div`
+const Avatar = styled.img`
   height: 32px;
   width: 32px;
   border-radius: 50%;
   background-color: #999;
 `
-
-
 
 const Navbar = () => {
   const { currentUser } = useSelector(state => state.user);
@@ -143,7 +141,7 @@ const Navbar = () => {
           currentUser ?
             <User>
               <VideoCallOutlinedIcon />
-              <Avatar />
+              <Avatar src={currentUser.img} />
               {
                 currentUser.name
               }
