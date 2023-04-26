@@ -10,6 +10,8 @@ import Thumbnail2 from "../assets/img/thumbnails/thumbnail2.jpg";
 import SortIcon from '@mui/icons-material/Sort';
 import CommentSection from "../components/commentSection/CommentSection";
 import Card from "../components/card/Card"
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -69,7 +71,7 @@ const InteractionBtnSingle = styled.div`
   }
 `;
 const Hr = styled.hr`
-  border: 0.5px solid ${({theme}) => theme.soft};
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Recommendations = styled.div`
@@ -136,6 +138,9 @@ const Description = styled.div`
 
 
 const Video = () => {
+  const { currentUser } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const path = useLocation()
   return (
     <Container>
       <Content>
@@ -152,7 +157,7 @@ const Video = () => {
           <InteractionButtons>
             <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> LIKE </InteractionBtnSingle>
             <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /> DISLIKE </InteractionBtnSingle>
-            <InteractionBtnSingle> <ReplyIcon className="icon shareIcon"/> SHARE </InteractionBtnSingle>
+            <InteractionBtnSingle> <ReplyIcon className="icon shareIcon" /> SHARE </InteractionBtnSingle>
             <InteractionBtnSingle> <ContentCutIcon className="icon" /> CLIP </InteractionBtnSingle>
             <InteractionBtnSingle> <LibraryAddIcon className="icon" /> SAVE </InteractionBtnSingle>
             <InteractionBtnSingle> <MoreHorizIcon className="icon" /> </InteractionBtnSingle>
@@ -177,20 +182,20 @@ const Video = () => {
         <CommentSection />
       </Content>
       <Recommendations>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
-        <Card type="small"/>
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
+        <Card type="small" />
       </Recommendations>
     </Container>
   )
