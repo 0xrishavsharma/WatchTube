@@ -140,7 +140,11 @@ const Description = styled.div`
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user)
   const dispatch = useDispatch()
-  const path = useLocation()
+  const path = useLocation().pathname.split("/")[2]
+
+  const [video, setVideo] = useState({});
+  const [channel, setChannel] = useState({})
+
   return (
     <Container>
       <Content>
@@ -182,6 +186,7 @@ const Video = () => {
         <CommentSection />
       </Content>
       <Recommendations>
+        {/* <Card type="small" />
         <Card type="small" />
         <Card type="small" />
         <Card type="small" />
@@ -194,8 +199,7 @@ const Video = () => {
         <Card type="small" />
         <Card type="small" />
         <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
+        <Card type="small" /> */}
       </Recommendations>
     </Container>
   )
