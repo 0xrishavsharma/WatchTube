@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components"
-import { VideoData } from "../utils/database.js";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CardComponent from "../components/card/Card.jsx";

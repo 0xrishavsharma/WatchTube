@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUp from '@mui/icons-material/ThumbUp';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import ThumbDown from '@mui/icons-material/ThumbDown';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ContentCutIcon from '@mui/icons-material/ContentCut';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
@@ -12,6 +14,12 @@ import CommentSection from "../components/commentSection/CommentSection";
 import Card from "../components/card/Card"
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { fetchSuccess, fetchStart, fetchFailure, like, dislike } from "./../store/videoSlice.js";
+import { format } from "timeago.js"
+import { current } from "@reduxjs/toolkit";
+
 
 const Container = styled.div`
   display: flex;
@@ -139,28 +147,63 @@ const Description = styled.div`
 
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user)
-  const dispatch = useDispatch()
-  const path = useLocation().pathname.split("/")[2]
+  const { currentVideo } = useSelector((state) => state.video)
 
-  const [video, setVideo] = useState({});
+  const dispatch = useDispatch()
+  const videoId = useLocation().pathname.split("/")[2]
+
   const [channel, setChannel] = useState({})
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const videoRes = await axios.get(`/api/videos/find/${videoId}`);
+        const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`);
+        dispatch(fetchSuccess(videoRes.data));
+        setChannel(channelRes.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [videoId, dispatch])
+
+  const handleLike = async () => {
+    await post(`/api/videos/like/${videoId}`)
+  }
+  const handleDislike = async () => { }
 
   return (
     <Container>
       <Content>
-        <VideoWrapper>
-          <iframe width="100%" height="513" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </VideoWrapper>
-        <Title> Rick Astley - Never Gonna Give You Up (Official Music Video)</Title>
+        <Title> {currentVideo.videoTitle}</Title>
         <Details>
           <Info>
-            <p>123,778 views</p>
+            <p>{currentVideo.views} views</p>
             <p> · </p>
-            <p>July 16, 2022</p>
+            <p>{format(currentVideo.createdAt)}</p>
           </Info>
           <InteractionButtons>
-            <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> LIKE </InteractionBtnSingle>
-            <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /> DISLIKE </InteractionBtnSingle>
+            <InteractionBtnSingle onClick={handleLike}>
+              {
+                currentUser && currentVideo.likes?.includes(currentUser._id)
+                  ?
+                  <ThumbUp className="icon" />
+                  :
+                  <ThumbUpOutlinedIcon className="icon" />
+              }
+              LIKE {currentVideo.likes?.length}
+            </InteractionBtnSingle>
+            <InteractionBtnSingle onClick={handleDislike}>
+              {
+                currentVideo.dislikes?.includes(currentUser._id)
+                  ?
+                  <ThumbDown />
+                  :
+                  <ThumbDownAltOutlinedIcon className="icon" />
+              }
+              DISLIKE {currentVideo.dislikes?.length}
+            </InteractionBtnSingle>
             <InteractionBtnSingle> <ReplyIcon className="icon shareIcon" /> SHARE </InteractionBtnSingle>
             <InteractionBtnSingle> <ContentCutIcon className="icon" /> CLIP </InteractionBtnSingle>
             <InteractionBtnSingle> <LibraryAddIcon className="icon" /> SAVE </InteractionBtnSingle>
@@ -170,16 +213,18 @@ const Video = () => {
         <Hr />
         <ChannelContainer>
           <ChannelWrapper>
-            <Logo src={Thumbnail20}></Logo>
+            <Logo src={channel.imgUrl}></Logo>
             <ChannelDetails>
-              <ChannelName className="channelDetails">Great Sight</ChannelName>
-              <ChannelSubscribers className="channelDetails">347K subscribers</ChannelSubscribers>
+              <ChannelName className="channelDetails">{channel.name}</ChannelName>
+              <ChannelSubscribers className="channelDetails">
+                {channel.subscribers?.length === 0 || null || "undefined" ? 0 : channel.subscribers?.length} subscribers
+              </ChannelSubscribers>
             </ChannelDetails>
           </ChannelWrapper>
           <SubscribeBtn>SUBSCRIBE</SubscribeBtn>
         </ChannelContainer>
         <ChannelMoreDetails>
-          <Description className="channelDetails">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus ullam, quae ea autem repudiandae optio nostrum tempore odio amet dicta ipsum accusantium modi. Aliquam, soluta error? Porro aliquam reprehenderit architecto necessitatibus quae, labore adipisci tenetur aperiam excepturi. Optio, modi officia!</Description>
+          <Description className="channelDetails">{currentVideo.description}</Description>
           <ShowMoreBtn className="channelDetails">SHOW MORE</ShowMoreBtn>
         </ChannelMoreDetails>
         <Hr />

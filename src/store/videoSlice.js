@@ -10,23 +10,26 @@ const videoSlice = createSlice({
     name: "video",
     initialState,
     reducers: {
-        likeVideo: (state) => {
+        fetchStart: (state) => {
             state.loading = true
         },
-        dislikeVideo: (state, action) => {
+        fetchSuccess: (state, action) => {
             state.loading = false,
-                state.currentUser = action.payload
+                state.currentVideo = action.payload
         },
-        subscribeChannel: (state) => {
+        fetchFailure: (state) => {
             state.loading = false,
                 state.error = true
         },
-        unsubscribeChannel: (state) => {
+        like: (state) => {
             return initialState
-        }
+        },
+        dislike: (state) => {
+            return initialState
+        },
     },
 })
 
-export const { loginStart, loginSuccess, loginFailure, logout } = videoSlice.actions;
+export const { fetchStart, fetchSuccess, fetchFailure, like, dislike } = videoSlice.actions;
 
 export default videoSlice.reducer;

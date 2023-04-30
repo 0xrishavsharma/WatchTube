@@ -18,7 +18,7 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({ user: userReducer, video: videoReducer })
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer); // helps us store the state in local storage
 
 export const store = configureStore({
     reducer: persistedReducer,
