@@ -169,7 +169,7 @@ const Video = () => {
   }, [videoId, dispatch])
 
   const handleLike = async () => {
-    await post(`/api/videos/like/${videoId}`)
+    await put(`/api/videos/like/${videoId}`)
   }
   const handleDislike = async () => { }
 
