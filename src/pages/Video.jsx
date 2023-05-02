@@ -7,18 +7,13 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import ContentCutIcon from '@mui/icons-material/ContentCut';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Thumbnail20 from "../assets/img/thumbnails/thumbnail20.jpg";
-import Thumbnail2 from "../assets/img/thumbnails/thumbnail2.jpg";
-import SortIcon from '@mui/icons-material/Sort';
 import CommentSection from "../components/commentSection/CommentSection";
-import Card from "../components/card/Card"
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { fetchSuccess, fetchStart, fetchFailure, like, dislike } from "./../store/videoSlice.js";
+import { fetchStart, fetchSuccess, fetchFailure, like, dislike } from "./../store/videoSlice.js";
 import { format } from "timeago.js"
-import { current } from "@reduxjs/toolkit";
 
 
 const Container = styled.div`
@@ -146,63 +141,71 @@ const Description = styled.div`
 
 
 const Video = () => {
-  const { currentUser } = useSelector((state) => state.user)
-  const { currentVideo } = useSelector((state) => state.video)
+  const { currentUser } = useSelector((state) => state.user);
+  const { currentVideo } = useSelector((state) => state.video);
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-  const videoId = useLocation().pathname.split("/")[2]
+  const videoId = useLocation().pathname.split("/")[2];
 
-  const [channel, setChannel] = useState({})
+  const [channel, setChannel] = useState({});
 
+
+  // Fetch video and channel data from database
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Fetch video data from database
         const videoRes = await axios.get(`/api/videos/find/${videoId}`);
-        const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`);
+        // Fetch channel data from database
+        const channelRes = await axios.get(
+          `/users/find/${videoRes.data.userId}`
+        );
         dispatch(fetchSuccess(videoRes.data));
-        setChannel(channelRes.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    fetchData()
-  }, [videoId, dispatch])
+        setChannel(channelRes.data);
+      } catch (err) { }
+    };
+    fetchData();
+  }, [videoId, dispatch]);
 
   const handleLike = async () => {
-    await put(`/api/videos/like/${videoId}`)
-  }
-  const handleDislike = async () => { }
+    await axios.put(`/api/users/like/${currentVideo._id}`);
+    dispatch(like(currentUser._id));
+  };
+  const handleDislike = async () => {
+    await axios.put(`/api/users/dislike/${currentVideo._id}`);
+    dispatch(dislike(currentUser._id));
+  };
 
   return (
     <Container>
       <Content>
-        <Title> {currentVideo.videoTitle}</Title>
+        <Title> {currentVideo?.videoTitle}</Title>
         <Details>
           <Info>
-            <p>{currentVideo.views} views</p>
+            <p>{currentVideo?.views} views</p>
             <p> · </p>
-            <p>{format(currentVideo.createdAt)}</p>
+            <p>{format(currentVideo?.createdAt)}</p>
           </Info>
           <InteractionButtons>
             <InteractionBtnSingle onClick={handleLike}>
               {
-                currentUser && currentVideo.likes?.includes(currentUser._id)
+                currentUser && currentVideo?.likes?.includes(currentUser._id)
                   ?
                   <ThumbUp className="icon" />
                   :
                   <ThumbUpOutlinedIcon className="icon" />
               }
-              LIKE {currentVideo.likes?.length}
+              LIKE {currentVideo?.likes?.length}
             </InteractionBtnSingle>
             <InteractionBtnSingle onClick={handleDislike}>
               {
-                currentVideo.dislikes?.includes(currentUser._id)
+                currentVideo?.dislikes?.includes(currentUser._id)
                   ?
                   <ThumbDown />
                   :
                   <ThumbDownAltOutlinedIcon className="icon" />
               }
-              DISLIKE {currentVideo.dislikes?.length}
+              DISLIKE {currentVideo?.dislikes?.length}
             </InteractionBtnSingle>
             <InteractionBtnSingle> <ReplyIcon className="icon shareIcon" /> SHARE </InteractionBtnSingle>
             <InteractionBtnSingle> <ContentCutIcon className="icon" /> CLIP </InteractionBtnSingle>
@@ -224,7 +227,7 @@ const Video = () => {
           <SubscribeBtn>SUBSCRIBE</SubscribeBtn>
         </ChannelContainer>
         <ChannelMoreDetails>
-          <Description className="channelDetails">{currentVideo.description}</Description>
+          <Description className="channelDetails">{currentVideo?.description}</Description>
           <ShowMoreBtn className="channelDetails">SHOW MORE</ShowMoreBtn>
         </ChannelMoreDetails>
         <Hr />
