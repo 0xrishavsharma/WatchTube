@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { fetchStart, fetchSuccess, fetchFailure, like, dislike } from "./../store/videoSlice.js";
 import { format } from "timeago.js"
+import { subscribe } from "../store/userSlice";
 
 
 const Container = styled.div`
@@ -129,7 +130,7 @@ const ChannelSubscribers = styled.div`
 `;
 const SubscribeBtn = styled.div`
   padding: 0.7rem 1rem;
-  background-color: #d30202;
+  background-color:${({ isSubscribed }) => isSubscribed ? "gray" : "#d30202"};
   font-size: 14px;
   color: white;
   cursor: pointer;
@@ -154,19 +155,15 @@ const Video = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch video data from database
         const videoRes = await axios.get(`/api/videos/find/${videoId}`);
-        // Fetch channel data from database
-        const channelRes = await axios.get(
-          `/users/find/${videoRes.data.userId}`
-        );
+        const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`);
+
         dispatch(fetchSuccess(videoRes.data));
         setChannel(channelRes.data);
-      } catch (err) { }
+      } catch (err) { console.log(err) }
     };
     fetchData();
   }, [videoId, dispatch]);
-
   const handleLike = async () => {
     await axios.put(`/api/users/like/${currentVideo._id}`);
     dispatch(like(currentUser._id));
@@ -175,6 +172,18 @@ const Video = () => {
     await axios.put(`/api/users/dislike/${currentVideo._id}`);
     dispatch(dislike(currentUser._id));
   };
+
+  const subscribeBtnHandler = async () => {
+    try {
+      console.log("channel id", channel._id)
+      currentUser.subscribedChannels.includes(channel._id) ?
+        await axios.put(`/api/users/unsubscribe/${channel._id}`) :
+        await axios.put(`/api/users/subscribe/${channel._id}`);
+      dispatch(subscribe(channel._id))
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <Container>
@@ -220,11 +229,22 @@ const Video = () => {
             <ChannelDetails>
               <ChannelName className="channelDetails">{channel.name}</ChannelName>
               <ChannelSubscribers className="channelDetails">
-                {channel.subscribers?.length === 0 || null || "undefined" ? 0 : channel.subscribers?.length} subscribers
+                {channel.subscribers?.length === 0 ? 0 : channel.subscribers} subscribers
               </ChannelSubscribers>
             </ChannelDetails>
           </ChannelWrapper>
-          <SubscribeBtn>SUBSCRIBE</SubscribeBtn>
+          <SubscribeBtn
+            isSubscribed={currentUser.subscribedChannels?.includes(channel._id)}
+            onClick={subscribeBtnHandler}
+          >
+            {
+              currentUser.subscribedChannels?.includes(channel._id)
+                ?
+                "SUBSCRIBED"
+                :
+                "SUBSCRIBE"
+            }
+          </SubscribeBtn>
         </ChannelContainer>
         <ChannelMoreDetails>
           <Description className="channelDetails">{currentVideo?.description}</Description>
