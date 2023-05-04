@@ -15,6 +15,7 @@ import axios from "axios";
 import { fetchStart, fetchSuccess, fetchFailure, like, dislike } from "./../store/videoSlice.js";
 import { format } from "timeago.js"
 import { subscribe } from "../store/userSlice";
+import { channelFetchSuccess } from "../store/channelSlice";
 
 
 const Container = styled.div`
@@ -144,12 +145,10 @@ const Description = styled.div`
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { currentVideo } = useSelector((state) => state.video);
+  const { currentChannel } = useSelector((state) => state.channel);
   const dispatch = useDispatch();
 
   const videoId = useLocation().pathname.split("/")[2];
-
-  const [channel, setChannel] = useState({});
-
 
   // Fetch video and channel data from database
   useEffect(() => {
@@ -157,9 +156,8 @@ const Video = () => {
       try {
         const videoRes = await axios.get(`/api/videos/find/${videoId}`);
         const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`);
-
         dispatch(fetchSuccess(videoRes.data));
-        setChannel(channelRes.data);
+        dispatch(channelFetchSuccess(channelRes.data));
       } catch (err) { console.log(err) }
     };
     fetchData();
@@ -175,11 +173,17 @@ const Video = () => {
 
   const subscribeBtnHandler = async () => {
     try {
-      console.log("channel id", channel._id)
-      currentUser.subscribedChannels.includes(channel._id) ?
-        await axios.put(`/api/users/unsubscribe/${channel._id}`) :
-        await axios.put(`/api/users/subscribe/${channel._id}`);
-      dispatch(subscribe(channel._id))
+      console.log("currentChannel id", `/api/users/unsubscribe/${currentChannel._id}`)
+      currentUser.subscribedChannels.includes(currentChannel._id)
+        ?
+        await axios.put(`/api/users/unsubscribe/${currentChannel._id}`)
+        :
+        await axios.put(`/api/users/subscribe/${currentChannel._id}`)
+      dispatch(subscribe(currentChannel._id));
+
+      const videoRes = await axios.get(`/api/videos/find/${videoId}`);
+      const channelRes = await axios.get(`/api/users/find/${videoRes.data.userId}`);
+      dispatch(channelFetchSuccess(channelRes.data));
     } catch (err) {
       console.log(err)
     }
@@ -225,20 +229,20 @@ const Video = () => {
         <Hr />
         <ChannelContainer>
           <ChannelWrapper>
-            <Logo src={channel.imgUrl}></Logo>
+            <Logo src={currentChannel?.imgUrl}></Logo>
             <ChannelDetails>
-              <ChannelName className="channelDetails">{channel.name}</ChannelName>
+              <ChannelName className="channelDetails">{currentChannel?.name}</ChannelName>
               <ChannelSubscribers className="channelDetails">
-                {channel.subscribers?.length === 0 ? 0 : channel.subscribers} subscribers
+                {currentChannel?.subscribers === 0 ? "0" : currentChannel?.subscribers} subscribers
               </ChannelSubscribers>
             </ChannelDetails>
           </ChannelWrapper>
           <SubscribeBtn
-            isSubscribed={currentUser.subscribedChannels?.includes(channel._id)}
+            isSubscribed={currentUser.subscribedChannels?.includes(currentChannel?._id)}
             onClick={subscribeBtnHandler}
           >
             {
-              currentUser.subscribedChannels?.includes(channel._id)
+              currentUser.subscribedChannels?.includes(currentChannel?._id)
                 ?
                 "SUBSCRIBED"
                 :
