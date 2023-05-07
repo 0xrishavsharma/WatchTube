@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Thumbnail2 from "../../assets/img/thumbnails/thumbnail2.jpg";
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { format } from 'timeago.js';
 
 const Container = styled.div`
   display: flex;
@@ -91,28 +94,46 @@ const ReportPopUp = styled.div`
 `;
 
 
-const commentMoreInfo = () => {
-  let moreInfoIcon = document.getElementById("moreInfoIcon");
-  let reportPopUp = document.getElementById("reportPopUp");
-  if (reportPopUp.style.opacity === "1") {
-    reportPopUp.style.opacity = "0";
-  } else {
-    reportPopUp.style.opacity = "1";
+
+
+
+const Comment = ({ videoId, comment }) => {
+
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const fetchComment = async () => {
+      const res = await axios.get(`/api/users/find/${comment.userId}`);
+      setUser(res.data);
+      console.log(res.data)
+    }
+    fetchComment()
+  }, [comment.userId])
+
+  const commentMoreInfo = () => {
+    let moreInfoIcon = document.getElementById("moreInfoIcon");
+    let reportPopUp = document.getElementById("reportPopUp");
+    if (reportPopUp.style.opacity === "1") {
+      reportPopUp.style.opacity = "0";
+    } else {
+      reportPopUp.style.opacity = "1";
+    }
   }
-}
 
-
-const Comment = () => {
   return (
     <Container>
       <Wrapper>
-        <UserAvatar src={Thumbnail2}></UserAvatar>
+        <UserAvatar src={user?.img}></UserAvatar>
         <CommentDetails>
           <NameAndDate>
-            <Name>John Doe</Name>
-            <PostedDate>3 weeks ago</PostedDate>
+            <Name>{user?.name}</Name>
+            <PostedDate>{format(comment.createdAt)}</PostedDate>
           </NameAndDate>
-          <CommentTxt>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis maiores dignissimos nostrum enim quidem, numquam doloribus ab corporis nemo, magni delectus atque vero.</CommentTxt>
+          <CommentTxt>
+            {
+              comment.description
+            }
+          </CommentTxt>
           <InteractionBtns>
             <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> 23 </InteractionBtnSingle>
             <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /></InteractionBtnSingle>

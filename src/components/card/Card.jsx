@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const Container = styled.div`
     color: ${({ theme }) => theme.text};
-    width: ${(props) => props.type === "small" ? "100%" : "352px"};
+    /* width: ${(props) => props.type === "small" ? "100%" : "352px"}; */
     margin-bottom: ${(props) => props.type === "small" ? "0.8rem" : "2.5rem"};
     display: flex;
     flex-direction: column;
@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-    max-width: 85%;
+    max-width: 100%;
     height: ${(props) => props.type === "small" && "94px"};
     background-color: #999;
     cursor: pointer;

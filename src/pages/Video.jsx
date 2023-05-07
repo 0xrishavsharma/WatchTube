@@ -27,11 +27,15 @@ const Container = styled.div`
 const Content = styled.div`
   flex: 5;
 `;
+
 const VideoWrapper = styled.div`
 
-  iframe{
-    width: 100%;
-  }
+`;
+
+const VideoFrame = styled.video`
+ max-height: 720px;
+ width: 100%;
+object-fit: cover;
 `;
 
 const Title = styled.div`
@@ -192,6 +196,9 @@ const Video = () => {
   return (
     <Container>
       <Content>
+        <VideoFrame>
+
+        </VideoFrame>
         <Title> {currentVideo?.videoTitle}</Title>
         <Details>
           <Info>
@@ -255,7 +262,7 @@ const Video = () => {
           <ShowMoreBtn className="channelDetails">SHOW MORE</ShowMoreBtn>
         </ChannelMoreDetails>
         <Hr />
-        <CommentSection />
+        <CommentSection videoId={currentVideo._id} />
       </Content>
       <Recommendations>
         {/* <Card type="small" />
