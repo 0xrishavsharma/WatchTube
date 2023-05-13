@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Thumbnail2 from "../../assets/img/thumbnails/thumbnail2.jpg";
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
-import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { format } from 'timeago.js';
 
@@ -105,7 +103,6 @@ const Comment = ({ videoId, comment }) => {
     const fetchComment = async () => {
       const res = await axios.get(`/api/users/find/${comment.userId}`);
       setUser(res.data);
-      console.log(res.data)
     }
     fetchComment()
   }, [comment.userId])

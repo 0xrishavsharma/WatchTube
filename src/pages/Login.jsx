@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { loginFailure, loginStart, loginSuccess } from '../store/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
@@ -81,6 +81,8 @@ const Login = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const { currentUser } = useSelector(state => state.user)
     const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
@@ -134,37 +136,39 @@ const Login = () => {
     }
 
     return (
-        <Container>
-            <Wrapper>
-                <Title>Log in</Title>
-                <SubTitle>to continue to WatchTube</SubTitle>
-                <Input type='text' placeholder='username' onChange={(e) => setName(e.target.value)} />
-                <Input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-                <Button onClick={handleLogin}>Log in</Button>
-                <Title>or</Title>
-                <GoogleButton
-                    onClick={signInWithGoogle}
-                >
-                    <GoogleIcon />
-                    <span>
-                        Log in with Google
-                    </span>
-                </GoogleButton>
-                <Title>or</Title>
-                <Input type='username' placeholder='username' onChange={(e) => setName(e.target.value)} />
-                <Input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
-                <Input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-                <Button onClick={handleSignUp}>Sign up</Button>
-            </Wrapper>
-            <More>
-                English(US)
-                <Links>
-                    <Link>Help</Link>
-                    <Link>Privacy</Link>
-                    <Link>Terms</Link>
-                </Links>
-            </More>
-        </Container>
+        <>
+            <Container>
+                <Wrapper>
+                    <Title>Log in</Title>
+                    <SubTitle>to continue to WatchTube</SubTitle>
+                    <Input type='text' placeholder='username' onChange={(e) => setName(e.target.value)} />
+                    <Input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
+                    <Button onClick={handleLogin}>Log in</Button>
+                    <Title>or</Title>
+                    <GoogleButton
+                        onClick={signInWithGoogle}
+                    >
+                        <GoogleIcon />
+                        <span>
+                            Log in with Google
+                        </span>
+                    </GoogleButton>
+                    <Title>or</Title>
+                    <Input type='username' placeholder='username' onChange={(e) => setName(e.target.value)} />
+                    <Input type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
+                    <Input type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
+                    <Button onClick={handleSignUp}>Sign up</Button>
+                </Wrapper>
+                <More>
+                    English(US)
+                    <Links>
+                        <Link>Help</Link>
+                        <Link>Privacy</Link>
+                        <Link>Terms</Link>
+                    </Links>
+                </More>
+            </Container>
+        </>
     )
 }
 

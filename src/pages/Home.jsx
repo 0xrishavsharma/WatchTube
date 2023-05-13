@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "../components/card/Card.jsx";
+import Card from "../components/Card.jsx";
 
 const Container = styled.div`
     display: grid;

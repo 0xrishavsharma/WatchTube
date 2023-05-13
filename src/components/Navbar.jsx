@@ -4,6 +4,8 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import UploadPopup from "./UploadPopup";
+import { useState } from "react";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
@@ -120,6 +122,10 @@ gap: 0.8rem;
 align-items: center;
 font-weight: 500;
 color: ${({ theme }) => theme.text};
+
+ & > VideoCallOutlinedIcon{
+  cursor: pointer;
+ }
 `
 const Avatar = styled.img`
   height: 32px;
@@ -129,30 +135,38 @@ const Avatar = styled.img`
 `
 
 const Navbar = () => {
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   const { currentUser } = useSelector(state => state.user);
   return (
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder="Search" />
-          <SearchOutlinedIcon className="searchIcon" />
-        </Search>
-        {
-          currentUser ?
-            <User>
-              <VideoCallOutlinedIcon />
-              <Avatar src={currentUser.img} />
-              {
-                currentUser.name
-              }
-            </User>
-            :
-            <Link to="/login">
-              <Button> <AccountCircleOutlinedIcon className="signInIcon" /> Sign in</Button>
-            </Link>
-        }
-      </Wrapper >
-    </Container >
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input placeholder="Search" />
+            <SearchOutlinedIcon className="searchIcon" />
+          </Search>
+          {
+            currentUser ?
+              <User>
+                <VideoCallOutlinedIcon onClick={()=>  setIsPopupOpen(!isPopupOpen)} />
+                <Avatar src={currentUser.img} />
+                {
+                  currentUser.name
+                }
+              </User>
+              :
+              <Link to="/login">
+                <Button> <AccountCircleOutlinedIcon className="signInIcon" /> Sign in</Button>
+              </Link>
+          }
+        </Wrapper >
+      </Container >
+      {
+        isPopupOpen && <UploadPopup setIsPopupOpen={setIsPopupOpen} />
+      }
+    </>
   )
 }
 

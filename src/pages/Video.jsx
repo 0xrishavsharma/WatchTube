@@ -7,7 +7,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import ContentCutIcon from '@mui/icons-material/ContentCut';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import CommentSection from "../components/commentSection/CommentSection";
+import CommentSection from "../components/CommentSection";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";

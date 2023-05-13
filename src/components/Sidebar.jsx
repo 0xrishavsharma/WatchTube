@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import WatchTubeLogo from "../../assets/img/logo.png";
+import WatchTubeLogo from "../assets/img/logo.png";
 import HomeIcon from '@mui/icons-material/Home';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
@@ -16,10 +16,8 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightnessOutlined';
 import HistoryIcon from '@mui/icons-material/History';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import { Link } from "react-router-dom";
-import Home from "../../pages/Home";
 import { useSelector } from "react-redux";
 
 const Container = styled.div`

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import { VideoData } from "../../utils/database.js";
-import Thumbnail from "../../assets/img/thumbnails/thumbnail1.jpg"
+import Thumbnail from "../assets/img/thumbnails/thumbnail1.jpg"
 import { Link } from 'react-router-dom';
 import { format } from "timeago.js"
 import axios from 'axios';

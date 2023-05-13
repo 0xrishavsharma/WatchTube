@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
-import ProfileImg from "../../assets/img/thumbnails/thumbnail2.jpg";
 import SortIcon from '@mui/icons-material/Sort';
-import Comment from '../comment/Comment';
+import Comment from './Comment';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Button } from '@mui/material';
 
 
 const Container = styled.div`
