@@ -17,9 +17,12 @@ const Container = styled.div`
 
 const Image = styled.img`
     max-width: 100%;
+    min-width: 100%;
     height: ${(props) => props.type === "small" && "94px"};
     background-color: #999;
     cursor: pointer;
+    object-fit: cover;
+    max-height:160px;
 `;
 
 const ChannelImage = styled.img`
@@ -87,7 +90,7 @@ const Card = ({ type, video }) => {
   return (
     <Container type={type}>
       <Link to={`/video/${video._id}`}>
-        <Image src={Thumbnail} type={type} />
+        <Image src={video.thumbnailUrl !== "" ? video.thumbnailUrl : Thumbnail} type={type} />
       </Link>
       <Details type={type}>
         <ChannelImage src={channel.img} type={type} />

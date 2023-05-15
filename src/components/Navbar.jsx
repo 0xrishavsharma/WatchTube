@@ -2,10 +2,16 @@ import styled from "styled-components";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
-import { Link } from "react-router-dom";
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import UploadPopup from "./UploadPopup";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/userSlice";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
@@ -37,8 +43,9 @@ const Search = styled.div`
   // Search Icon
   .searchIcon{
     font-size: 16px;
-    color: #ffffff4f;
+    color: ${({ theme }) => theme.text};
     font-size: 20px;
+    cursor: ${({ disabled }) => disabled ? 'inherit' : 'pointer'};
 
     @media screen and (max-width: 778px) {
       font-size: 16px;
@@ -127,31 +134,104 @@ color: ${({ theme }) => theme.text};
   cursor: pointer;
  }
 `
+const AvatarContainer = styled.div`
+  position: relative;
+`
 const Avatar = styled.img`
   height: 32px;
   width: 32px;
   border-radius: 50%;
   background-color: #999;
+  cursor: pointer;
+`
+
+const Options = styled.div`
+  position: absolute;
+  /* top: 100%; */
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: ${({ theme }) => theme.bg};
+  border: 1px solid ${({ theme }) => theme.soft};
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: max-content;
+  z-index: 1;
+  & > p{
+    font-size: 14px;
+    font-weight: 500;
+    color: ${({ theme }) => theme.text};
+    cursor: pointer;
+  }
+  &:hover{
+      background-color: ${({ theme }) => theme.bgLight};
+    }
 `
 
 const Navbar = () => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [searchBtnDisabled, setSearchBtnDisabled] = useState(true);
+  const [optionsOpen, setOptionsOpen] = useState(false);
+
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   const { currentUser } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (query.length > 0) {
+      setSearchBtnDisabled(false)
+    } else {
+      setSearchBtnDisabled(true)
+    }
+  })
+
+  const optionsHandler = () => {
+    setOptionsOpen(!optionsOpen)
+  }
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("/api/auth/signout")
+      console.log("res", res)
+    } catch (err) {
+      console.log(err)
+    }
+    dispatch(logout());
+    setOptionsOpen(false)
+    navigate("/login")
+  }
   return (
     <>
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" />
-            <SearchOutlinedIcon className="searchIcon" />
+            <Input placeholder="Search" onChange={e => setQuery(e.target.value)} />
+            <SearchOutlinedIcon disabled={searchBtnDisabled} className="searchIcon" onClick={() => navigate(`/search?q=${query}`)} />
           </Search>
           {
             currentUser ?
               <User>
-                <VideoCallOutlinedIcon onClick={()=>  setIsPopupOpen(!isPopupOpen)} />
-                <Avatar src={currentUser.img} />
+                <VideoCallOutlinedIcon style={{ cursor: "pointer" }} onClick={() => setIsPopupOpen(!isPopupOpen)} />
+                <AvatarContainer>
+                  <Avatar src={currentUser.img} onClick={optionsHandler} />
+                  {
+                    optionsOpen &&
+                    <Options>
+                      <Button onClick={handleLogout}>
+                        <LogoutOutlinedIcon />
+                        Logout
+                      </Button>
+                    </Options>
+                  }
+
+                </AvatarContainer>
                 {
                   currentUser.name
                 }

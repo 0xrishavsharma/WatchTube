@@ -144,6 +144,28 @@ const CommentSection = ({ videoId }) => {
     inputWrapper.style.display = "none";
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const commentInput = commentInputRef.current;
+    const inputWrapper = inputWrapperRef.current;
+    const inputBtn = commentBtnRef.current;
+
+    try {
+      const res = await axios.post(`/api/comments`, {
+        userId: currentUser?._id,
+        videoId: currentVideo._id,
+        description: commentInput.value
+      })
+      setComments([...comments, res.data])
+      commentInput.value = "";
+      inputWrapper.style.display = "none";
+      inputBtn.style.cursor = "not-allowed";
+      inputBtn.style.backgroundColor = "#ffffff1f";
+      inputBtn.style.color = "#ffffff61";
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <Container>
@@ -154,18 +176,23 @@ const CommentSection = ({ videoId }) => {
           }
           &nbsp;Comments
         </TotalComments>
-        <SortBy> <SortIcon /> SORT BY </SortBy>
+        {/* <SortBy> <SortIcon /> SORT BY </SortBy> */}
       </CommentsStats>
-      <NewComment>
-        <InputWrapper>
-          <UserAvatar src={currentUser.img}></UserAvatar>
-          <Input placeholder="Add a comment..." ref={commentInputRef} onKeyDown={commentInputHandler}></Input>
-        </InputWrapper>
-        <CommentInputOptions ref={inputWrapperRef}>
-          <CancelButton onClick={commentInputCancelBtn}>Cancel</CancelButton>
-          <SubmitButton ref={commentBtnRef}>Comment</SubmitButton>
-        </CommentInputOptions>
-      </NewComment>
+      {
+        currentUser ?
+          <NewComment>
+            <InputWrapper>
+              <UserAvatar src={currentUser?.img}></UserAvatar>
+              <Input placeholder="Add a comment..." ref={commentInputRef} onKeyDown={commentInputHandler}></Input>
+            </InputWrapper>
+            <CommentInputOptions ref={inputWrapperRef}>
+              <CancelButton onClick={commentInputCancelBtn}>Cancel</CancelButton>
+              <SubmitButton ref={commentBtnRef} onClick={handleSubmit}>Comment</SubmitButton>
+            </CommentInputOptions>
+          </NewComment>
+          : null
+      }
+
       {
         comments.map((comment) => {
           return (

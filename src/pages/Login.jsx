@@ -6,6 +6,7 @@ import { loginFailure, loginStart, loginSuccess } from '../store/userSlice';
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import GoogleIcon from '@mui/icons-material/Google';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     display:flex;
@@ -84,6 +85,7 @@ const Login = () => {
 
     const { currentUser } = useSelector(state => state.user)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -91,7 +93,6 @@ const Login = () => {
 
         try {
             const res = await axios.post("/api/auth/signin", { name, password })
-            console.log(res.data)
             dispatch(loginSuccess(res.data));
 
         } catch (err) {
@@ -106,8 +107,6 @@ const Login = () => {
             const res = await axios.post("/api/auth/signup", {
                 name, email, password
             })
-            /* dispatch(loginSuccess(res.data)) */
-            console.log(res.data)
         } catch (err) {
             /* dispatch(loginFailure()) */
             console.log(err)
@@ -124,7 +123,7 @@ const Login = () => {
                     img: result.user.photoURL
                 }).then((res) => {
                     dispatch(loginSuccess(res.data))
-                    console.log(res, res.data)
+                    console.log(res.data)
                 })
             })
 
@@ -132,7 +131,8 @@ const Login = () => {
                 dispatch(loginFailure())
                 console.log(err);
             }
-            )
+            );
+        navigate('/')
     }
 
     return (

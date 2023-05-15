@@ -17,6 +17,7 @@ const Container = styled.div`
 const Wrapper = styled.div`
     display: flex;
     gap:1rem;
+    width: 100%;
     &:hover #moreInfoIcon{
         opacity: 1;
     }
@@ -28,6 +29,12 @@ const UserAvatar = styled.img`
 `;
 const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
+`;
+
+const CommentWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 `;
 const CommentDetails = styled.div`
   
@@ -121,29 +128,31 @@ const Comment = ({ videoId, comment }) => {
     <Container>
       <Wrapper>
         <UserAvatar src={user?.img}></UserAvatar>
-        <CommentDetails>
-          <NameAndDate>
-            <Name>{user?.name}</Name>
-            <PostedDate>{format(comment.createdAt)}</PostedDate>
-          </NameAndDate>
-          <CommentTxt>
-            {
-              comment.description
-            }
-          </CommentTxt>
-          <InteractionBtns>
-            <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> 23 </InteractionBtnSingle>
-            <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /></InteractionBtnSingle>
-            <p>REPLY</p>
-          </InteractionBtns>
-        </CommentDetails>
-        <MoreInfoBtn className='moreInfoBtn' >
-          <MoreVertIcon id="moreInfoIcon" onClick={commentMoreInfo} />
-          <ReportPopUp id="reportPopUp" className="reportPopUpToggle">
-            <EmojiFlagsIcon className='icon' />
-            <p>Report</p>
-          </ReportPopUp>
-        </MoreInfoBtn>
+        <CommentWrapper>
+          <CommentDetails>
+            <NameAndDate>
+              <Name>{user?.name}</Name>
+              <PostedDate>{format(comment.createdAt)}</PostedDate>
+            </NameAndDate>
+            <CommentTxt>
+              {
+                comment.description
+              }
+            </CommentTxt>
+            <InteractionBtns>
+              <InteractionBtnSingle> <ThumbUpOutlinedIcon className="icon" /> 23 </InteractionBtnSingle>
+              <InteractionBtnSingle> <ThumbDownAltOutlinedIcon className="icon" /></InteractionBtnSingle>
+              <p>REPLY</p>
+            </InteractionBtns>
+          </CommentDetails>
+          <MoreInfoBtn className='moreInfoBtn' >
+            <MoreVertIcon id="moreInfoIcon" onClick={commentMoreInfo} />
+            <ReportPopUp id="reportPopUp" className="reportPopUpToggle">
+              <EmojiFlagsIcon className='icon' />
+              <p>Report</p>
+            </ReportPopUp>
+          </MoreInfoBtn>
+        </CommentWrapper>
       </Wrapper>
     </Container>
   )

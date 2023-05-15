@@ -16,6 +16,8 @@ import { fetchStart, fetchSuccess, fetchFailure, like, dislike } from "./../stor
 import { format } from "timeago.js"
 import { subscribe } from "../store/userSlice";
 import { channelFetchSuccess } from "../store/channelSlice";
+import Card from "../components/Card";
+import Recommendation from "../components/Recommendation";
 
 
 const Container = styled.div`
@@ -35,7 +37,7 @@ const VideoWrapper = styled.div`
 const VideoFrame = styled.video`
  max-height: 720px;
  width: 100%;
-object-fit: cover;
+  object-fit: cover;
 `;
 
 const Title = styled.div`
@@ -47,6 +49,7 @@ const Details = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
 `;
 const Info = styled.div`
   display: flex;
@@ -71,20 +74,17 @@ const InteractionBtnSingle = styled.div`
 
   .icon{
     font-size: 22px;
-    cursor: pointer;
+    cursor: ${({ currentUser }) => currentUser ? "pointer" : "not-allowed"};
   }
 
   .shareIcon{
     transform: rotateY(180deg);
     font-size: 22px;
+    z-index: 1;
   }
 `;
 const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
-`;
-
-const Recommendations = styled.div`
-  flex: 2;
 `;
 
 const ChannelContainer = styled.div`
@@ -138,11 +138,11 @@ const SubscribeBtn = styled.div`
   background-color:${({ isSubscribed }) => isSubscribed ? "gray" : "#d30202"};
   font-size: 14px;
   color: white;
-  cursor: pointer;
+    cursor: ${({ currentUser }) => currentUser ? "pointer" : "not-allowed"};
   border-radius: 2px;
 `;
 const Description = styled.div`
-
+  margin-bottom: 1rem;
 `;
 
 
@@ -167,18 +167,26 @@ const Video = () => {
     fetchData();
   }, [videoId, dispatch]);
   const handleLike = async () => {
-    await axios.put(`/api/users/like/${currentVideo._id}`);
-    dispatch(like(currentUser._id));
+    if (currentUser) {
+      await axios.put(`/api/users/like/${currentVideo._id}`)
+      dispatch(like(currentUser?._id));
+    }
+    else {
+      alert("Please login to like a video");
+    }
   };
   const handleDislike = async () => {
-    await axios.put(`/api/users/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    if (currentUser) {
+      await axios.put(`/api/users/dislike/${currentVideo._id}`);
+      dispatch(dislike(currentUser?._id));
+    } else {
+      alert("Please login to dislike a video");
+    }
   };
 
   const subscribeBtnHandler = async () => {
     try {
-      console.log("currentChannel id", `/api/users/unsubscribe/${currentChannel._id}`)
-      currentUser.subscribedChannels.includes(currentChannel._id)
+      currentUser?.subscribedChannels.includes(currentChannel._id)
         ?
         await axios.put(`/api/users/unsubscribe/${currentChannel._id}`)
         :
@@ -192,13 +200,12 @@ const Video = () => {
       console.log(err)
     }
   }
-
   return (
-    <Container>
+    <Container >
       <Content>
-        <VideoFrame>
-
-        </VideoFrame>
+        <VideoWrapper>
+          <VideoFrame src={currentVideo?.videoUrl ? currentVideo?.videoUrl : "https://www.youtube.com/watch?v=DBXH9jJRaDk"} controls />
+        </VideoWrapper>
         <Title> {currentVideo?.videoTitle}</Title>
         <Details>
           <Info>
@@ -207,30 +214,30 @@ const Video = () => {
             <p>{format(currentVideo?.createdAt)}</p>
           </Info>
           <InteractionButtons>
-            <InteractionBtnSingle onClick={handleLike}>
+            <InteractionBtnSingle currentUser={currentUser} >
               {
-                currentUser && currentVideo?.likes?.includes(currentUser._id)
+                currentUser && currentVideo?.likes?.includes(currentUser?._id)
                   ?
-                  <ThumbUp className="icon" />
+                  <ThumbUp onClick={handleLike} className="icon" />
                   :
-                  <ThumbUpOutlinedIcon className="icon" />
+                  <ThumbUpOutlinedIcon onClick={handleLike} className="icon" />
               }
               LIKE {currentVideo?.likes?.length}
             </InteractionBtnSingle>
-            <InteractionBtnSingle onClick={handleDislike}>
+            <InteractionBtnSingle currentUser={currentUser} >
               {
-                currentVideo?.dislikes?.includes(currentUser._id)
+                currentVideo?.dislikes?.includes(currentUser?._id)
                   ?
-                  <ThumbDown />
+                  <ThumbDown onClick={handleDislike} />
                   :
-                  <ThumbDownAltOutlinedIcon className="icon" />
+                  <ThumbDownAltOutlinedIcon onClick={handleDislike} className="icon" />
               }
               DISLIKE {currentVideo?.dislikes?.length}
             </InteractionBtnSingle>
-            <InteractionBtnSingle> <ReplyIcon className="icon shareIcon" /> SHARE </InteractionBtnSingle>
-            <InteractionBtnSingle> <ContentCutIcon className="icon" /> CLIP </InteractionBtnSingle>
-            <InteractionBtnSingle> <LibraryAddIcon className="icon" /> SAVE </InteractionBtnSingle>
-            <InteractionBtnSingle> <MoreHorizIcon className="icon" /> </InteractionBtnSingle>
+            <InteractionBtnSingle currentUser={currentUser}> <ReplyIcon className="icon shareIcon" /> SHARE </InteractionBtnSingle>
+            <InteractionBtnSingle currentUser={currentUser}> <ContentCutIcon className="icon" /> CLIP </InteractionBtnSingle>
+            <InteractionBtnSingle currentUser={currentUser}> <LibraryAddIcon className="icon" /> SAVE </InteractionBtnSingle>
+            <InteractionBtnSingle currentUser={currentUser}> <MoreHorizIcon className="icon" /> </InteractionBtnSingle>
           </InteractionButtons>
         </Details>
         <Hr />
@@ -245,11 +252,12 @@ const Video = () => {
             </ChannelDetails>
           </ChannelWrapper>
           <SubscribeBtn
-            isSubscribed={currentUser.subscribedChannels?.includes(currentChannel?._id)}
+            isSubscribed={currentUser?.subscribedChannels?.includes(currentChannel?._id)}
             onClick={subscribeBtnHandler}
+            currentUser={currentUser}
           >
             {
-              currentUser.subscribedChannels?.includes(currentChannel?._id)
+              currentUser?.subscribedChannels?.includes(currentChannel?._id)
                 ?
                 "SUBSCRIBED"
                 :
@@ -259,27 +267,12 @@ const Video = () => {
         </ChannelContainer>
         <ChannelMoreDetails>
           <Description className="channelDetails">{currentVideo?.description}</Description>
-          <ShowMoreBtn className="channelDetails">SHOW MORE</ShowMoreBtn>
+          {/* <ShowMoreBtn className="channelDetails">SHOW MORE</ShowMoreBtn> */}
         </ChannelMoreDetails>
         <Hr />
-        <CommentSection videoId={currentVideo._id} />
+        <CommentSection videoId={currentVideo?._id} />
       </Content>
-      <Recommendations>
-        {/* <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" />
-        <Card type="small" /> */}
-      </Recommendations>
+      <Recommendation tags={currentVideo?.tags} />
     </Container>
   )
 }

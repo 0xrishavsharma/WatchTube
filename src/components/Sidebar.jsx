@@ -14,11 +14,15 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SettingsBrightnessOutlinedIcon from '@mui/icons-material/SettingsBrightnessOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+
 import HistoryIcon from '@mui/icons-material/History';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { logout } from "../store/userSlice";
 
 const Container = styled.div`
     flex: 1.2;
@@ -170,6 +174,7 @@ const Title = styled.p`
   color: #aaaaaa;
   font-weight: 500;
   padding:0rem 1.6rem;
+  margin-bottom: 0.5rem;
 
   @media screen and (max-width: 1066px) {
       display: none;
@@ -231,7 +236,6 @@ const Button = styled.button`
       display: none;
     }
   }
- 
 `;
 
 const ThemeButton = styled.button`
@@ -239,12 +243,15 @@ const ThemeButton = styled.button`
   align-items: center;
   gap: 1rem;
   padding: 7.5px 1.6rem;
-  /* margin-top: 0.4rem; */
-  cursor:pointer;
+  /* max-width: max-content; */
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.text};
   width: 100%;
+  cursor:pointer;
+&.logoutIcon{
+  display: none;
+}
   &:hover{
     background-color: ${({ theme }) => theme.bgHover};
   }
@@ -273,8 +280,12 @@ const themeChange = () => {
   }
 }
 
+
 const Sidebar = ({ darkMode, setDarkMode }) => {
   const currentUser = useSelector((state) => state.user.currentUser)
+  const [activeTab, setActiveTab] = useState("home");
+
+  const dispatch = useDispatch();
 
   const themeToLocalStorage = () => {
     let themeBtnTxt = document.getElementById("themeBtnTxt");
@@ -300,11 +311,29 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
   //     }
   //   }
 
+  const changeCurrentTab = (nav) => {
+    setActiveTab(nav);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("/api/auth/signout")
+      removeCookie("access_token")
+      console.log("res", res)
+    } catch (err) {
+      console.log(err)
+    }
+    dispatch(logout());
+    setOptionsOpen(false)
+    navigate("/login")
+  }
+
+
   return (
     <Container id='sidebar'>
       <Wrapper>
         <LogoWrapper>
-          <DensityMediumIcon id="moreHorzIcon" />
+          {/* <DensityMediumIcon id="moreHorzIcon" /> */}
           <Link to="/" style={{ textDecoration: "none" }} >
             <Logo>
               <Img src={WatchTubeLogo} />
@@ -313,24 +342,28 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
           </Link>
         </LogoWrapper>
         <Items>
-          <Link to="/">
-            <Item className="active">
+          <Link to="/" onClick={() => changeCurrentTab("home")}>
+            <Item className={activeTab === 'home' ? "active" : ''}>
               <HomeIcon className="icon" />
               <p>Home</p>
             </Item>
           </Link>
-          <Link to="/trending">
-            <Item>
+          <Link to="/trending" onClick={() => changeCurrentTab("trending")}>
+            <Item className={activeTab === 'trending' ? "active" : ''}>
               <ExploreOutlinedIcon />
               <p>Explore</p>
             </Item>
           </Link>
-          <Link to="/subscriptions">
-            <Item>
-              <SubscriptionsOutlinedIcon />
-              <p>Subscriptions</p>
-            </Item>
-          </Link>
+          {
+            currentUser &&
+            <Link to="/subscriptions" onClick={() => changeCurrentTab("subscriptions")}>
+              <Item className={activeTab === 'subscriptions' ? "active" : ''}>
+                <SubscriptionsOutlinedIcon />
+                <p>Subscriptions</p>
+              </Item>
+            </Link>
+          }
+
           <Hr />
           <Link to="/">
             <Item>
@@ -377,15 +410,11 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
             <p>Movies</p>
           </Item>
           <Item>
-            <ArticleOutlinedIcon />
-            <p>News</p>
-          </Item>
-          <Item>
             <LiveTvIcon />
             <p>Live</p>
           </Item>
           <Hr />
-          <Item>
+          {/* <Item>
             <SettingsOutlinedIcon />
             <p>Settings</p>
           </Item>
@@ -396,11 +425,20 @@ const Sidebar = ({ darkMode, setDarkMode }) => {
           <Item>
             <HelpOutlineOutlinedIcon />
             <p>Help</p>
-          </Item>
+          </Item> */}
+          <Title>Settings</Title>
           <ThemeButton onClick={() => { setDarkMode(!darkMode); themeChange(); themeToLocalStorage() }} id="themeBtn">
             <SettingsBrightnessOutlinedIcon id="themeIcon" />
             <p id="themeBtnTxt">Light Mode</p>
           </ThemeButton>
+          {
+            currentUser &&
+            <ThemeButton onClick={handleLogout}>
+              <LogoutOutlinedIcon className="logoutIcon" />
+              Logout
+            </ThemeButton>
+
+          }
         </Items>
       </Wrapper>
     </Container >
