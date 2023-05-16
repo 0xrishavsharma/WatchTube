@@ -10,7 +10,7 @@ export default defineConfig({
         // target: 'http://localhost:8800/',
         target: 'https://watchtube-backend.onrender.com/',
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
     rewrite: (path) => path.replace(/^\/api/, ''),
