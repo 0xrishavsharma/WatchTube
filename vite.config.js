@@ -11,9 +11,8 @@ export default defineConfig({
         target: 'https://watchtube-backend.onrender.com/',
         changeOrigin: true,
         secure: false,
-        // secure: true,
-        ws: true
       },
     },
+    rewrite: (path) => path.replace(/^\/api/, ''),
   },
 })
