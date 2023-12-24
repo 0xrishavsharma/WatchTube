@@ -31,44 +31,30 @@ const Container = styled.div`
 const Home = ({ type }) => {
     const [videos, setVideos] = useState([]);
     const { currentUser } = useSelector((state) => state.user);
+    const [prevType, setPrevType] = useState(type);
 
     useEffect(() => {
-        const fetchPopularVideos = useCallback(async () => {
-            const data = await fetch(
-                `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&key=${
-                    import.meta.env.VITE_YOUTUBE_API_KEY
-                }`,
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
+        if (type !== prevType || videos.length === 0) {
+            const fetchVideos = async () => {
+                try {
+                    const res = await axios.get(
+                        `${domainName}/api/videos/trending`
+                    );
+                    setVideos(res.data);
+                    console.log("Response", res.data);
+                } catch (err) {
+                    console.log(err);
+                    err?.response?.statusText === "Unauthorized" &&
+                        setVideos(null);
                 }
-            ).then((response) => response.json());
-            console.log(data.items);
-
-            setVideos(data?.items);
-        });
-        // fetchPopularVideos();
-        // const fetchVideos = async () => {
-        //     try {
-        //         const res = await axios.get(`${domainName}/api/videos/${type}`);
-        //         setVideos(res.data);
-        //     } catch (err) {
-        //         console.log(err);
-        //         err?.response?.statusText === "Unauthorized" && setVideos(null);
-        //     }
-        // };
-        // fetchVideos();
-    // }, [type]);
+            };
+            // fetchVideos();
+            setPrevType(type);
+        }
     }, [type]);
 
     const numVideos = videos !== null && videos?.length;
 
-    {
-        /* (videos !== null || currentUser !== null) ? */
-    }
     return (
         <Container numVideos={numVideos}>
             {type !== "subscriptions" ? (

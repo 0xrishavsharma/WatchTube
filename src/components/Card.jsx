@@ -24,6 +24,7 @@ const Image = styled.img`
     cursor: pointer;
     object-fit: cover;
     max-height: 160px;
+    border-radius: 0.6rem;
 `;
 
 const ChannelImage = styled.img`
@@ -37,10 +38,20 @@ const ChannelImage = styled.img`
 const Title = styled.div`
     cursor: pointer;
     font-size: ${(props) => (props.type === "small" ? "12px" : "16px")};
+    // overflow: hidden;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    // max-width: 60ch;
+
+    // &:hover {
+    //     overflow: visible;
+    //     white-space: normal;
+    //     width: auto;
+    // }
 `;
 
 const ChannelName = styled.div`
-    font-size: 10px;
+    font-size: 0.8rem;
     color: ${({ theme }) => theme.textSoft};
     cursor: pointer;
 `;
@@ -56,7 +67,7 @@ const VideoReach = styled.div`
     flex-direction: column;
     gap: 0.2rem;
     margin-top: 0.5rem;
-    font-size: 10px;
+    font-size: 0.8rem;
     color: ${({ theme }) => theme.textSoft};
     div {
         display: flex;
@@ -81,6 +92,7 @@ const Card = ({ type, video }) => {
         videoViews: video?.statistics?.viewCount,
         videoTitle: video?.snippet?.title,
         videoCreatedAt: video?.snippet?.publishedAt,
+        channelImg: null,
     });
 
     useEffect(() => {
@@ -94,7 +106,20 @@ const Card = ({ type, video }) => {
                 console.log(err);
             }
         };
-        fetchChannel();
+
+        const fetchChannelImg = async () => {
+            try {
+                const res = await axios.get("https://picsum.photos/200");
+                setVideoDetails({
+                    ...videoDetails,
+                    channelImg: res.request.responseURL,
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchChannelImg();
+        // fetchChannel();
     }, [video.userId]);
     return (
         <Container type={type}>
@@ -102,9 +127,14 @@ const Card = ({ type, video }) => {
                 <Image src={videoDetails?.videoThumbnail} type={type} />
             </Link>
             <Details type={type}>
-                <ChannelImage src={channel.img} type={type} />
+                <ChannelImage src={videoDetails.channelImg} type={type} />
                 <VideoStats type={type}>
-                    <Title type={type}>{videoDetails?.videoTitle}</Title>
+                    <Title type={type}>
+                        {" "}
+                        {videoDetails?.videoTitle.length > 50
+                            ? `${videoDetails?.videoTitle.substring(0, 50)}...`
+                            : videoDetails?.videoTitle}
+                    </Title>
                     <VideoReach>
                         <ChannelName>{videoDetails?.channelName}</ChannelName>
                         <div>
